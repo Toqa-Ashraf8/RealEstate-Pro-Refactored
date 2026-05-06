@@ -24,13 +24,15 @@ const HandleChangeImage=async(e)=>{
   const{name}=e.target;
   if (!e.target.files || e.target.files.length === 0) return; 
   const file = e.target.files[0];
-  const formDatau = new FormData();
-  const fileName=file.name;
-  formDatau.append("fileu", file,fileName );
-   await dispatch(setUnitData({[name]:fileName}));
-  await dispatch(uploadUnitImage(formDatau));
+  const formData = new FormData();
+  formData.append("file", file );
+  await dispatch(uploadUnitImage(
+    {
+    data:formData , 
+    folder:"Photos_units"
+  }));
+  await dispatch(setUnitData({[name]:file.name}));
 }
-
 
   return (
     <div className="modalu" dir='rtl'>

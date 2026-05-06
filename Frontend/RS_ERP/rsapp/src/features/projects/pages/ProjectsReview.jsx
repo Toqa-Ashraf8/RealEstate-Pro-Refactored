@@ -14,7 +14,7 @@ import {
   FaExternalLinkAlt
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { fetchProjectsList } from '../../../services/projectService.js';
+import { fetchProjectsList, fetchProjectUnits } from '../../../services/projectService.js';
 
 const ProjectsReview = () => {
   const projectState = useSelector((state) => state.projects);
@@ -106,7 +106,7 @@ const ProjectsReview = () => {
                     </span>
                   </td>
                   <td className="actions-cell">
-                    <button className="view-details-btn">
+                    <button className="view-details-btn" onClick={()=>dispatch(fetchProjectUnits(project.ProjectCode))}>
                       التفاصيل <FaChevronLeft />
                     </button>
                   </td>

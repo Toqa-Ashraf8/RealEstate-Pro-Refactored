@@ -34,7 +34,7 @@ useEffect(() => {
     dispatch(toggleSearchModal(false));
   }
 }, [selectedProjectRowIndex]);
-
+/* console.log("imageproj",variables.PROJECT_IMAGES_URL + projectsList[0].ProjectImage) */
   return (
     <div dir='rtl'>
       <div className="modals">

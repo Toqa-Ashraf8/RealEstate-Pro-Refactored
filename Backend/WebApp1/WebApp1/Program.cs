@@ -7,7 +7,9 @@ using Newtonsoft.Json.Serialization;
 using System.Reflection.Emit;
 using System.Text;
 using WebApp1.EF;
+using WebApp1.Interfaces;
 using WebApp1.Models;
+using WebApp1.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +68,8 @@ builder.Services.AddAuthentication(options =>
         };
  });
 builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
 var app = builder.Build();
 

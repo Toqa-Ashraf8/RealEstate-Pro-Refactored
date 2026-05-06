@@ -53,10 +53,12 @@ const AddProjects = () => {
     if (!e.target.files || e.target.files.length === 0) return;
     const file = e.target.files[0];
     const formData = new FormData();
-    const fileName = file.name;
-    formData.append("file", file, fileName);
-    await dispatch(uploadProjectImage(formData));
-    await dispatch(setProjectData({ [name]: fileName }));
+    formData.append("file", file);
+   await dispatch(uploadProjectImage({ 
+        data: formData, 
+        folder: "Photos_projects" 
+    }));
+    await dispatch(setProjectData({ [name]: file.name }));
   };
 
     const handleInputChange = (e) => {
@@ -112,6 +114,7 @@ const AddProjects = () => {
       dispatch(toggleDeleteProjectModal(true));
     }
   }
+  console.log("unitsList",unitsList  )
   return (
     <div className="page-container">
       <div className="add-project-wrapper" dir="rtl">
@@ -163,6 +166,7 @@ const AddProjects = () => {
                   className="form-control-modern" 
                   ref={NameRef} 
                   name="ProjectName" 
+                  autoComplete="off"
                   value={project.ProjectName || ""} 
                   onChange={handleInputChange} />
                 </div>
@@ -189,6 +193,7 @@ const AddProjects = () => {
                   className="form-control-modern" 
                   name="Location" 
                   value={project.Location || ""} 
+                  autoComplete="off"
                   onChange={handleInputChange}
                    />
                 </div>
@@ -200,6 +205,7 @@ const AddProjects = () => {
                   className="form-control-modern" 
                   name="TotalUnits" 
                   value={project.TotalUnits || 0} 
+                  autoComplete="off"
                   onChange={handleInputChange} 
                   />
                 </div>

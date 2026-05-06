@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { variables } from "../assets/variables";
 //-------------------------------------------------------------------------------
-export const uploadProjectImage = createAsyncThunk("uploadProjectImage/projects", async (formdata) => {
-    const resp = await axios.post(variables.PROJECTS_API + "UploadProjectImage", formdata)
+export const uploadProjectImage = createAsyncThunk("uploadProjectImage/projects", async ({ data, folder }) => {
+    const resp = await axios.post(variables.PROJECTS_API + "UploadImage?folderName="+folder+"",data)
         .then((res) => res.data);
     return resp;
 })
@@ -12,13 +12,13 @@ export const saveCompleteProject = createAsyncThunk("saveCompleteProject/project
         .then((res) => res.data)
     return resp;
 })
-export const uploadUnitImage = createAsyncThunk("uploadUnitImage/projects", async (formDatau) => {
-    const resp = await axios.post(variables.PROJECTS_API + "UploadUnitImage", formDatau)
+export const uploadUnitImage = createAsyncThunk("uploadUnitImage/projects", async ({ data, folder }) => {
+    const resp = await axios.post(variables.PROJECTS_API + "UploadImage?folderName="+folder+"",data)
         .then((res) => res.data);
     return resp;
 })
 export const deleteProject = createAsyncThunk("deleteProject/projects", async (id) => {
-    const resp = await axios.post(variables.PROJECTS_API + "DeleteProject?id=" + id)
+    const resp = await axios.post(variables.PROJECTS_API + "DeleteProject/" + id)
         .then((res) => res.data);
     return resp;
 })
@@ -28,12 +28,12 @@ export const fetchProjectsList = createAsyncThunk("fetchProjectsList/projects", 
     return resp;
 })
 export const fetchProjectUnits = createAsyncThunk("fetchProjectUnits/projects", async (id) => {
-    const resp = await axios.post(variables.PROJECTS_API + "GetProjectUnits?projectId=" + id)
+    const resp = await axios.get(variables.PROJECTS_API + "GetUnitsByProject/" + id)
         .then((res) => res.data);
     return resp;
 })
 export const fetchUnitsDetails = createAsyncThunk("fetchUnitsDetails/projects", async (id) => {
-    const resp = await axios.post(variables.PROJECTS_API + "GetUnitsByProject?Id=" + id)
+    const resp = await axios.get(variables.PROJECTS_API + "GetUnitsByProject/" + id)
         .then((res) => res.data);
     return resp;
 })

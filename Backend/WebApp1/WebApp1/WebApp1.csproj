@@ -10,7 +10,7 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
     <PackageReference Include="Microsoft.Data.SqlClient.SNI.runtime" Version="6.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -32,6 +32,7 @@
     <Folder Include="NationalIDCard_Images\" />
     <Folder Include="Checks_Images\" />
     <Folder Include="Photos_units\" />
+    <Folder Include="Photos_projects\" />
   </ItemGroup>
 
 </Project>

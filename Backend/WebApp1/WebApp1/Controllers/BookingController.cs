@@ -1,9 +1,7 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.Contracts;
