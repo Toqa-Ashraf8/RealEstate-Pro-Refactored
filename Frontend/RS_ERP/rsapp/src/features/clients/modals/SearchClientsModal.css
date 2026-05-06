@@ -1,0 +1,124 @@
+/* SearchClients.css */
+.modals {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.4); /* لون أغمق شفاف */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modalcnt_s {
+    width: 90%;
+    max-width: 1000px; /* وسعنا العرض عشان الجدول يرتاح */
+    height: 85vh;
+    background-color: #f8fafc;
+    border-radius: 24px; /* زوايا دائرية أنعم */
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.hdr_s {
+    padding: 20px 30px;
+    background-color: #1e293b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hds_title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    
+}
+
+.bodys {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+}
+
+.tbl_ss {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.tbl-srch {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tbl-srch th {
+    background-color: #f1f5f9 !important; /* لون هادي للهيدر */
+    color: #475569 !important;
+    padding: 15px !important;
+    font-size: 14px;
+    border-bottom: 2px solid #e2e8f0 !important;
+}
+
+.tbl-srch tbody tr {
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.tbl-srch tbody tr:hover {
+    background-color: #f0f4ff !important; /* لون تمييز عند الوقوف */
+}
+
+.tbl-srch td {
+    padding: 14px !important;
+    font-size: 14px;
+    color: #1e293b;
+    text-align: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.empty-msg {
+    padding: 40px !important;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.footer_s {
+    padding: 15px 30px;
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn_closes {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn_closes:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
+}
+.close_search{
+    cursor: pointer;
+}
+.hrdtitles_s{
+    display: flex;
+    justify-content: space-between;
+}

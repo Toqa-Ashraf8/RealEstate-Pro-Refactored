@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+.delete-wrapper {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    padding: 20px;
+    font-family: 'Cairo', sans-serif;
+
+}
+
+.delete-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 30px; 
+    height: 300px;
+    position: relative;
+    padding:25px 25px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    direction: rtl;
+    text-align: center;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #f1f5f9;
+}
+
+.delete-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    color: #94a3b8;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.delete-close-btn:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.delete-icon-box {
+    font-size: 45px;
+    color: #ef4444;
+    background: #fff5f5;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    margin: 0 auto 20px;
+    border: 2px solid #fee2e2;
+    animation: pulseRed 2s infinite; 
+}
+
+@keyframes pulseRed {
+    0% { 
+      transform: scale(1); 
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); 
+    }
+    70% { 
+      transform: scale(1.05); 
+      box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); 
+    }
+    100% { 
+      transform: scale(1); 
+    }
+}
+
+.delete-title {
+    font-size: 1.5rem;
+    color: #1e40af;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.delete-description {
+    font-size: 1.05rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.project-id {
+    display: block;
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 12px;
+    color: #1e293b;
+    font-weight: 700;
+    margin-top: 15px;
+    border: 1px dashed #cbd5e1;
+}
+
+.delete-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-action {
+    flex: 1;
+    padding: 12px;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.btn-no {
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-no:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.btn-yes-p {
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.btn-yes-p:hover {
+    background: #dc2626;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* التجاوب مع الموبايل */
+@media (max-width: 480px) {
+    .delete-card {
+        padding: 30px 15px 15px;
+        border-radius: 20px;
+    }
+    
+    .delete-actions {
+        flex-direction: column-reverse; /* الإلغاء تحت الحذف في الموبايل */
+    }
+    
+    .btn-action {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.8) translateY(30px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}

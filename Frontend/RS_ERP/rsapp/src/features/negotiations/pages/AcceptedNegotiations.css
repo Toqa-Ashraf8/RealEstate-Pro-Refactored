@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+.acc-page-wrapper {
+    padding: 30px 15px;
+    direction: rtl;
+    background-color: #f4f7fa; 
+    min-height: 100vh;
+    font-family: 'Cairo', sans-serif !important; 
+}
+
+.acc-header {
+    max-width: 1100px;
+    margin: 0 auto 30px auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.acc-header h2 {
+    font-size: 18px;
+    color: #2d3748;
+    font-weight: 800;
+}
+
+.acc-badge {
+    background: #e6fffa;
+    color: #2c7a7b;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #b2f5ea;
+}
+
+.acc-list-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+}
+
+.acc-item-row {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 12px 20px;
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr 0.5fr 0.5fr;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #edf2f7;
+    transition: all 0.2s ease;
+}
+
+.acc-item-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.acc-section {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+}
+
+.acc-client-section {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px;
+}
+
+.acc-avatar {
+    width: 38px;
+    height: 38px;
+    background: #ebf8ff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3182ce;
+}
+
+.acc-client-section h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #1a202c;
+    font-weight: 700;
+}
+
+.acc-client-section span {
+    font-size: 11px;
+    color: #718096;
+}
+
+.acc-unit-section p {
+    margin: 0;
+    font-size: 12px;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.acc-price {
+    color: #2b6cb0 !important; 
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    margin-top: 2px;
+}
+
+.acc-date-section p {
+    margin: 0;
+    font-size: 11px;
+    color: #718096;
+    font-weight: 700;
+}
+
+.acc-date-text {
+    font-size: 13px !important;
+    color: #2d3748 !important;
+    font-weight: 700 !important;
+}
+

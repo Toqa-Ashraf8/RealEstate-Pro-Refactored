@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --primary-blue: #1e40af;
+    --primary-hover: #1e3a8a;
+    --primary-light: #eff6ff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --bg-page: #f8fafc;
+}
+
+.login-page-container {
+    background: var(--bg-page);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    padding: 20px;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 600px; 
+}
+
+.login-main-card {
+    background: #ffffff;
+    padding: 45px 40px;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); 
+    border: 1px solid #f1f5f9;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-title {
+    font-size: 22px; 
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.login-input-row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-input-group {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.login-label {
+    font-weight: 700;
+    font-size: 13px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.login-label svg {
+    color: var(--primary-blue);
+    background: var(--primary-light);
+    padding: 6px;
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+}
+
+.login-control {
+    flex: 1;
+    padding: 12px 15px; 
+    border-radius: 12px;
+    border: 1.5px solid var(--border-color);
+    background: #ffffff;
+    color: var(--text-main);
+    font-weight: 600;
+    transition: all 0.2s ease;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.login-control:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.08);
+}
+
+.login-submit-btn {
+    width: 100%;
+    max-width: 280px; 
+    margin: 20px auto 0;
+    padding: 14px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-submit-btn:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.login-footer {
+    margin-top: 25px;
+    text-align: center;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.login-link {
+    color: var(--primary-blue);
+    cursor: pointer;
+    margin-right: 5px;
+    font-weight: 700;
+}
+
+@media (max-width: 500px) {
+    .login-input-group {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .login-label { width: 100%; }
+}

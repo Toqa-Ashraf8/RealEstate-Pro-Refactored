@@ -1,0 +1,78 @@
+
+.rv-modal-overlay {
+    position: fixed;
+    top: 30px; 
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 10001; 
+    pointer-events: none;
+}
+
+.rv-modal-card {
+    background: #ffffff;
+    padding: 20px 30px;
+    border-radius: 15px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 1px dashed #ff4d4f; 
+    animation: rvSlideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: auto;
+}
+
+.rv-modal-text {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #222;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.rv-modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.rv-modal-buttons button {
+    padding: 8px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.rv-btn-confirm {
+    background-color: #ff4d4f;
+    color: white;
+}
+
+.rv-btn-cancel {
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+.rv-btn-confirm:hover {
+    background-color: #d9363e;
+    transform: scale(1.05);
+}
+
+.rv-btn-cancel:hover {
+    background-color: #e0e0e0;
+}
+
+@keyframes rvSlideDown {
+    from { 
+        transform: translateY(-100px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0); 
+        opacity: 1; 
+    }
+}

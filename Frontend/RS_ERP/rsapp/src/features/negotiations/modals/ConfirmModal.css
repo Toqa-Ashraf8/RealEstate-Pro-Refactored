@@ -1,0 +1,66 @@
+.modal-o {
+  position: fixed;
+  top: 20px; 
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center; 
+  align-items: flex-start;
+  z-index: 10000;
+  pointer-events: none; 
+}
+
+.modal-container {
+  background: white;
+  padding: 15px 25px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid #eee;
+  animation: slideDown 0.3s ease-out;
+  pointer-events: auto;
+   
+}
+
+.modal-message {
+  font-size: 15px;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: 700; 
+  padding: 10px ;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-actions button {
+  padding: 6px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.btn-yes {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-no {
+  background-color: #f8f9fa;
+  color: #666;
+  border: 1px solid #ddd !important;
+}
+
+.btn-yes:hover { background-color: #218838; }
+.btn-no:hover { background-color: #e2e6ea; }
+
+@keyframes slideDown {
+  from { transform: translateY(-70px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

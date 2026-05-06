@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+.bk-manage-wrapper {
+    padding: 40px 20px;
+    direction: rtl;
+    background-color: #f0f4f8;
+    min-height: 100vh;
+    font-family: 'Cairo', sans-serif !important;
+}
+
+.bk-header {
+    max-width: 1000px;
+    margin: 0 auto 30px;
+}
+
+.bk-header h2 {
+    color: #1a365d;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 5px;
+}
+
+.bk-header p {
+    color: #718096;
+    font-size: 14px;
+}
+
+.bk-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bk-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 25px;
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 2fr;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.bk-main-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.bk-user-avatar {
+    width: 45px;
+    height: 45px;
+    background: #ebf4ff;
+    color: #3182ce;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bk-main-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #2d3748;
+}
+
+.bk-main-info span {
+    font-size: 12px;
+    color: #a0aec0;
+}
+
+.bk-price-info .label {
+    font-size: 11px;
+    color: #718096;
+    margin: 0;
+}
+
+.bk-price-info .value {
+    font-size: 18px;
+    font-weight: 800;
+    color: #2c5282;
+    margin: 0;
+}
+
+.bk-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-complete, .btn-schedule {
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-complete {
+    background: #edf2f7;
+    color: #4a5568;
+}
+
+.btn-schedule {
+    background: #3182ce;
+    color: white;
+}
+
+.btn-complete:hover { background: #e2e8f0; }
+.btn-schedule:hover { background: #2b6cb0; transform: translateY(-2px); }

@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+
+.modals {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.modalcnt_s {
+    width: 100%;
+    max-width: 1100px;
+    max-height: 90vh;
+    margin: auto;
+    overflow: hidden;
+    border: none;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    background-color: #f4f7fe; 
+    font-weight: 600; 
+    animation: zzoommm 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes zzoommm {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.hdr_s {
+    height: auto;
+    padding: 20px 30px;
+    background-color: #1e40af; 
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hds_title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    flex: 1;
+    text-align: center;
+}
+
+.hrdtitles {
+    order: 2; 
+}
+
+.bodys {
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+}
+.tbl_ss {
+    width: 100%;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow-x: auto;  
+    display: block;    
+    white-space: nowrap; 
+    overflow-x: auto!important;
+}
+
+.tbl-srch {
+    cursor: pointer;
+    margin-bottom: 0;
+    width: 100%;
+    min-width: 900px; 
+   
+}
+
+.tbl-srch th {
+    background-color: #1e40af !important; 
+    color: #fff !important;
+    padding: 15px !important;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+}
+
+.tbl-srch td {
+    text-align: center;
+    padding: 12px !important;
+    vertical-align: middle;
+    color: #2b3674;
+    border-bottom: 1px solid #f1f5f9;
+    
+}
+
+.tbl-srch tbody tr:hover {
+    background-color: #eff6ff !important;
+}
+
+.footer_s {
+    height: auto;
+    padding: 15px 30px;
+    background-color: #fff;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn_closes {
+    padding: 8px 25px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+
+@media (max-width: 768px) {
+    .modalcnt_s {
+        max-width: 95%;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+    }
+    
+    .hds_title { font-size: 18px; }
+    
+    .bodys { padding: 15px; }
+}

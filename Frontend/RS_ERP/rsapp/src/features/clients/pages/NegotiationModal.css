@@ -1,0 +1,124 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+
+.modaln {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    padding-top: 50px; 
+    background-color: rgba(15, 23, 42, 0.7); 
+    z-index: 2000;
+    font-family: 'Cairo', sans-serif;
+}
+
+.modalcnt_n {
+    max-width: 900px;
+    width: 95%; 
+    height: 550px; 
+    margin: auto;
+    display: flex; 
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 25px; 
+    background-color: #f8fafc; 
+    animation-name: zzzz;
+    animation-duration: 0.4s;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes zzzz {
+    from { 
+        transform: scale(0.8); 
+        opacity: 0; 
+    }
+    to {
+         transform: scale(1); 
+         opacity: 1; 
+        }
+}
+
+.headern, .footern {
+    height: 70px;
+    padding: 15px 30px;
+    color: #fff;
+    background-color: #1e40af; 
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; 
+}
+
+.mdl_titles {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.bodyn {
+    flex-grow: 1; 
+    overflow-y: auto; 
+    padding: 25px;
+}
+
+.close_b {
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.units_title {
+    margin: 0;
+    font-weight: 700;
+}
+
+.project-unit-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f1f5f9; 
+    height: 100%;
+    padding: 20px;
+    border-radius: 15px;
+    gap: 20px;
+}
+
+.data_lbl {
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 5px;
+}
+
+.select-project, .select-unit {
+    width: 100% !important; 
+    border-radius: 10px !important;
+}
+@media (max-width: 991px) {
+    .modalcnt_n {
+        height: 85vh; 
+        margin-top: 20px;
+    }
+    .row {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .col-lg-5, .col-lg-7 {
+        width: 100% !important;
+    }
+    .project-unit-section {
+        height: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .modaln { 
+        padding-top: 10px; 
+    }
+    .bodyn { 
+        padding: 15px; 
+    }
+    .footern { 
+        padding: 10px 20px; 
+    }
+}

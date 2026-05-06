@@ -1,0 +1,192 @@
+
+:root {
+    --primary-blue: #1e40af;
+    --text-dark: #1b2559;
+    --text-gray: #a3aed0;
+    --bg-soft: #f4f7fe;
+    --radius-standard: 14px;
+}
+
+.page-container {
+    padding: 30px;
+    background: var(--bg-soft);
+    min-height: 100vh;
+}
+.btns_toc {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+
+.crm_header {
+    text-align: right;
+    margin-bottom: 30px;
+    padding-right: 10px;
+    border-right: 4px solid var(--primary-blue);
+}
+
+.crm_title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+.main_crm {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+}
+
+.crm_cnt {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 25px;
+}
+
+.data_crm {
+    display: flex;
+    flex-direction: column; 
+    gap: 8px;
+}
+
+.lbl_crm {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lbl_crm svg {
+    color: var(--primary-blue);
+    background: #eff6ff;
+    padding: 6px;
+    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.crm_inp, .crm_select, .userName_inp {
+    width: 100% !important;
+    padding: 12px 15px !important;
+    border-radius: var(--radius-standard) !important;
+    border: 1.5px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+    transition: 0.3s !important;
+    font-family: 'Cairo', sans-serif;
+}
+.userName_inp{
+width: 30%!important;
+}
+
+.crm_inp:focus, .crm_select:focus {
+    border-color: var(--primary-blue) !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.05) !important;
+    outline: none;
+}
+.data_crm:has(.crm_notes) {
+    grid-column: span 2;
+}
+
+.crm_notes {
+    height: 100px !important;
+}
+
+.data_user {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.btns_bottomcrm {
+    width: 90%;
+    max-width: 1100px;
+    margin: 25px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn_nego { 
+    background: #f59e0b; 
+    color: white; 
+    padding: 12px 25px;
+    border-radius: 15px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
+}
+.btns_dtls_n{
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    gap:20px;
+}
+.btns_arrows {
+    display: flex;
+    gap: 8px;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.tbl_negotiation {
+    width: 90%;
+    margin: 30px auto;
+    background: white;
+    border-radius: 20px;
+    overflow-x: auto;
+    display: block;   
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+}
+
+.tbl_n {
+    min-width: 800px; 
+    width: 100%;
+}
+
+.tbl_n th {
+    background: #1b2559 !important;
+    color: #fff !important;
+    padding: 15px !important;
+}
+
+.tbl_n td {
+    text-align: center;
+    padding: 12px !important;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+@media (max-width: 992px) {
+    .btns_toc {
+        position: static;
+        flex-direction: row;
+        transform: none;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .crm_cnt { grid-template-columns: 1fr; }
+    .userName_inp{
+        width: 70%!important;
+    }
+}

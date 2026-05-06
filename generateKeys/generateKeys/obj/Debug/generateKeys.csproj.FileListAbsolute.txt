@@ -1,0 +1,40 @@
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\bin\Debug\generateKeys.exe.config
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\bin\Debug\generateKeys.exe
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\bin\Debug\generateKeys.pdb
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.AssemblyReference.cache
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\obj\Debug\generateKeys.Form1.resources
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\obj\Debug\generateKeys.Properties.Resources.resources
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.GenerateResource.cache
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.CoreCompileInputs.cache
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\obj\Debug\generateKeys.exe
+G:\_______11112024\sql api\prjts\generateKeys\generateKeys\obj\Debug\generateKeys.pdb
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\bin\Debug\generateKeys.exe.config
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\bin\Debug\generateKeys.exe
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\bin\Debug\generateKeys.pdb
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.AssemblyReference.cache
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\obj\Debug\generateKeys.Form1.resources
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\obj\Debug\generateKeys.Properties.Resources.resources
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.GenerateResource.cache
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.CoreCompileInputs.cache
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\obj\Debug\generateKeys.exe
+G:\_______11112024\sql api\prjts_api\generateKeys\generateKeys\obj\Debug\generateKeys.pdb
+D:\ToqaProject\API\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.AssemblyReference.cache
+D:\ToqaProject\API\generateKeys\generateKeys\obj\Debug\generateKeys.Form1.resources
+D:\ToqaProject\API\generateKeys\generateKeys\obj\Debug\generateKeys.Properties.Resources.resources
+D:\ToqaProject\API\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.GenerateResource.cache
+D:\ToqaProject\API\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.CoreCompileInputs.cache
+D:\ToqaProject\API\generateKeys\generateKeys\obj\Debug\generateKeys.exe
+D:\ToqaProject\API\generateKeys\generateKeys\obj\Debug\generateKeys.pdb
+D:\ToqaProject\API\generateKeys\generateKeys\bin\Debug\generateKeys.exe.config
+D:\ToqaProject\API\generateKeys\generateKeys\bin\Debug\generateKeys.exe
+D:\ToqaProject\API\generateKeys\generateKeys\bin\Debug\generateKeys.pdb
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\bin\Debug\generateKeys.exe.config
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\bin\Debug\generateKeys.exe
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\bin\Debug\generateKeys.pdb
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.AssemblyReference.cache
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\obj\Debug\generateKeys.Form1.resources
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\obj\Debug\generateKeys.Properties.Resources.resources
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.GenerateResource.cache
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\obj\Debug\generateKeys.csproj.CoreCompileInputs.cache
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\obj\Debug\generateKeys.exe
+F:\toqa_2\GraduationProject\zz_toqa\22_toqa\VersionL\API\generateKeys\generateKeys\obj\Debug\generateKeys.pdb
