@@ -150,7 +150,7 @@ const clientSlice = createSlice({
            
             .addCase(fetchFirstClient.fulfilled, (state, action) => {
                 state.client = action.payload.dt[0];
-                state.negotiationsList=action.payload.negotiations_f;
+                state.negotiationsList=action.payload.negotiations;
                 if(action.payload.isnull===true){
                     state.client=initialState.client;
                     toast.error("لا يوجد بيانات لعملاء , حاول مره أخري", {
@@ -172,7 +172,7 @@ const clientSlice = createSlice({
             })
             .addCase(fetchNextClient.fulfilled, (state, action) => {
                 state.client = action.payload.dt[0];
-                state.negotiationsList=action.payload.negotiations_n;
+                state.negotiationsList=action.payload.negotiations;
                 if(action.payload.islast===true){
                     toast.info("لا توجد سجلات تالية,انت بالفعل في السجل الأخير", {
                       theme: "colored",
@@ -191,7 +191,7 @@ const clientSlice = createSlice({
             .addCase(fetchPreviousClient.fulfilled, (state, action) => {
                 state.loading = false;
                 state.client = action.payload.dt[0];
-                state.negotiationsList=action.payload.negotiations_p;
+                state.negotiationsList=action.payload.negotiations;
                if(action.payload.isfirst===true){
                  toast.info("لا توجد سجلات سابقة,انت بالفعل في السجل الأول", {
                       theme: "colored",

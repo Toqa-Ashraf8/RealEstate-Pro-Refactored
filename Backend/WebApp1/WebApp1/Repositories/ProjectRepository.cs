@@ -109,12 +109,12 @@ namespace WebApp1.Repositories
                             }
                         }
 
-                        transaction.Commit();
+                        await transaction.CommitAsync();
                         return id;
                     }
                     catch (Exception)
                     {
-                        transaction.Rollback();
+                        await transaction.RollbackAsync();
                         throw;
                     }
                 }
@@ -144,12 +144,12 @@ namespace WebApp1.Repositories
                             await cmd.ExecuteNonQueryAsync();
                         }
 
-                        transaction.Commit();
+                        await transaction.CommitAsync();
                         return true;
                     }
                     catch
                     {
-                        transaction.Rollback();
+                        await transaction.RollbackAsync();
                         throw;
                     }
                 }

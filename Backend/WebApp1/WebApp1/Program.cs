@@ -70,6 +70,11 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+
+
+
+
 
 var app = builder.Build();
 

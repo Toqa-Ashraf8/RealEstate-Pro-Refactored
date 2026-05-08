@@ -9,12 +9,9 @@ namespace WebApp1.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectRepository _repo;
-        private readonly IWebHostEnvironment _env;
-        public ProjectController(IProjectRepository repo, IWebHostEnvironment env)
+        public ProjectController(IProjectRepository repo)
         {
             _repo = repo;
-            _env = env;
-
         }
        
         [Route("UploadImage")]
