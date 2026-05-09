@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using WebApp1.Interfaces;
 using WebApp1.Models;
@@ -8,144 +10,82 @@ namespace WebApp1.Repositories
 {
     public class ProjectRepository : IProjectRepository
     {
-        private readonly string _connectionString;
+        private readonly DbConnection _db;
         private readonly IWebHostEnvironment _env;
-        public ProjectRepository(IConfiguration configuration, IWebHostEnvironment env)
+        public ProjectRepository(DbConnection db, IWebHostEnvironment env)
         {
-            _connectionString = configuration.GetConnectionString("connT");
+            _db = db;
             _env = env;
         }
 
-        public async Task<DataTable> GetAllProjectsAsync()
+        public async Task <IEnumerable<Project>> GetAllProjects()
         {
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                string query = "SELECT * FROM Projects";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    await Task.Run(() => da.Fill(dt));
-                }
-            }
-            return dt;
+             string query = "SELECT * FROM Projects";
+             return await _db.QueryAsync<Project>(query);
         }
 
-        public async Task<int> UpsertProjectWithUnitsAsync(Project prj)
+        public async Task<int> UpsertProjectWithUnits(Project prj)
         {
             int id = Convert.ToInt32(prj.ProjectCode);
+            await _db.OpenAsync();
+            using var transaction = _db.BeginTransaction();
 
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            try
             {
-                await conn.OpenAsync();
-
-                using (SqlTransaction transaction = conn.BeginTransaction())
+                if (id == 0)
                 {
-                    try
-                    {
-                        if (id == 0)
-                        {
-                            string sqlInsert = @"INSERT INTO Projects (ProjectName, ProjectType, Location, TotalUnits, ProjectStatus, ProjectImage)
+                    string sqlInsert = @"INSERT INTO Projects (ProjectName, ProjectType, Location, TotalUnits, ProjectStatus, ProjectImage)
                                         VALUES (@ProjectName, @ProjectType, @Location, @TotalUnits, @ProjectStatus, @ProjectImage);
-                                        SELECT SCOPE_IDENTITY();";
-
-                            using (SqlCommand cmd = new SqlCommand(sqlInsert, conn, transaction))
-                            {
-                                cmd.Parameters.AddWithValue("@ProjectName", prj.ProjectName);
-                                cmd.Parameters.AddWithValue("@ProjectType", prj.ProjectType);
-                                cmd.Parameters.AddWithValue("@Location", prj.Location);
-                                cmd.Parameters.AddWithValue("@TotalUnits", prj.TotalUnits);
-                                cmd.Parameters.AddWithValue("@ProjectStatus", prj.ProjectStatus);
-                                cmd.Parameters.AddWithValue("@ProjectImage", prj.ProjectImage);
-                                id = Convert.ToInt32(await cmd.ExecuteScalarAsync());
-                            }
-                        }
-                        else
-                        {
-                            string sqlUpdate = @"UPDATE Projects SET ProjectName=@ProjectName, ProjectType=@ProjectType, 
+                                        SELECT CAST(SCOPE_IDENTITY() as int);";
+                     
+                    id = await _db.ExecuteScalarAsync<int>(sqlInsert, prj, transaction);
+                }
+                else
+                {
+                    string sqlUpdate = @"UPDATE Projects SET ProjectName=@ProjectName, ProjectType=@ProjectType, 
                                         Location=@Location, TotalUnits=@TotalUnits, ProjectStatus=@ProjectStatus, 
                                         ProjectImage=@ProjectImage WHERE ProjectCode=@ProjectCode";
 
-                            using (SqlCommand cmd = new SqlCommand(sqlUpdate, conn, transaction))
-                            {
-                                cmd.Parameters.AddWithValue("@ProjectName", prj.ProjectName);
-                                cmd.Parameters.AddWithValue("@ProjectType", prj.ProjectType);
-                                cmd.Parameters.AddWithValue("@Location", prj.Location);
-                                cmd.Parameters.AddWithValue("@TotalUnits", prj.TotalUnits);
-                                cmd.Parameters.AddWithValue("@ProjectStatus", prj.ProjectStatus);
-                                cmd.Parameters.AddWithValue("@ProjectImage", prj.ProjectImage);
-                                cmd.Parameters.AddWithValue("@ProjectCode", id);
-                                await cmd.ExecuteNonQueryAsync();
-                            }
-                        }
-                        string sqlDeleteUnits = "DELETE FROM Units WHERE ProjectCode = @ProjectCode";
-                        using (SqlCommand cmd = new SqlCommand(sqlDeleteUnits, conn, transaction))
-                        {
-                            cmd.Parameters.AddWithValue("@ProjectCode", id);
-                            await cmd.ExecuteNonQueryAsync();
-                        }
-
-                        if (prj.units != null && prj.units.Count > 0)
-                        {
-                            string sqlInsertUnits = @"INSERT INTO Units (serial, unitName, Floor, TotalArea, MeterPrice, TotalPrice, unitImage, ProjectCode, ProjectName, ReservedStatus)
-                                            VALUES (@serial, @unitName, @Floor, @TotalArea, @MeterPrice, @TotalPrice, @unitImage, @ProjectCode, @ProjectName, @ReservedStatus)";
-
-                            foreach (var unit in prj.units)
-                            {
-                                using (SqlCommand cmd = new SqlCommand(sqlInsertUnits, conn, transaction))
-                                {
-                                    cmd.Parameters.AddWithValue("@serial", unit.serial);
-                                    cmd.Parameters.AddWithValue("@unitName", unit.unitName);
-                                    cmd.Parameters.AddWithValue("@Floor", unit.Floor);
-                                    cmd.Parameters.AddWithValue("@TotalArea", unit.TotalArea);
-                                    cmd.Parameters.AddWithValue("@MeterPrice", unit.MeterPrice);
-                                    cmd.Parameters.AddWithValue("@TotalPrice", unit.TotalPrice);
-                                    cmd.Parameters.AddWithValue("@unitImage", unit.unitImage);
-                                    cmd.Parameters.AddWithValue("@ProjectCode", id);
-                                    cmd.Parameters.AddWithValue("@ProjectName", prj.ProjectName);
-                                    cmd.Parameters.AddWithValue("@ReservedStatus", unit.ReservedStatus);
-                                    await cmd.ExecuteNonQueryAsync();
-                                }
-                            }
-                        }
-
-                        await transaction.CommitAsync();
-                        return id;
-                    }
-                    catch (Exception)
-                    {
-                        await transaction.RollbackAsync();
-                        throw;
-                    }
+                    await _db.ExecuteAsync(sqlUpdate, prj, transaction);
                 }
+                string sqlDeleteUnits = "DELETE FROM Units WHERE ProjectCode = @ProjectCode";
+                await _db.ExecuteAsync(sqlDeleteUnits, new { id }, transaction);
+
+                if (prj.units != null && prj.units.Count > 0)
+                {
+                    prj.units.ForEach(u => u.ProjectCode = id);
+                    string sqlInsertUnits = @"INSERT INTO Units (serial, unitName, Floor, TotalArea, MeterPrice, TotalPrice, unitImage, ProjectCode, ProjectName, ReservedStatus)
+                    VALUES (@serial, @unitName, @Floor, @TotalArea, @MeterPrice, @TotalPrice, @unitImage, @ProjectCode, @ProjectName, @ReservedStatus)
+                    SELECT CAST(SCOPE_IDENTITY() as int)";
+                    await _db.ExecuteAsync(sqlInsertUnits, prj.units, transaction);
+                }
+
+               await transaction.CommitAsync();
+                return id;
             }
+            catch (Exception)
+            {
+               await transaction.RollbackAsync();
+                throw;
+            }
+             
         }
 
-        public async Task<bool> DeleteProjectAsync(int id)
+        public async Task<bool> DeleteProject(int id)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                await conn.OpenAsync();
-                using (SqlTransaction transaction = conn.BeginTransaction())
+            await _db.OpenAsync();
+            using var transaction = _db.BeginTransaction();
                 {
                     try
                     {
                         string deleteUnits = "DELETE Units WHERE ProjectCode = @id";
-                        using (SqlCommand cmd = new SqlCommand(deleteUnits, conn, transaction))
-                        {
-                            cmd.Parameters.AddWithValue("@id", id);
-                            await cmd.ExecuteNonQueryAsync();
-                        }
+                       await _db.ExecuteAsync(deleteUnits, new {id},transaction);
 
-                        string deleteProj = "DELETE Projects WHERE ProjectCode = @id";
-                        using (SqlCommand cmd = new SqlCommand(deleteProj, conn, transaction))
-                        {
-                            cmd.Parameters.AddWithValue("@id", id);
-                            await cmd.ExecuteNonQueryAsync();
-                        }
+                    string deleteProj = "DELETE Projects WHERE ProjectCode = @id";
+                    await _db.ExecuteAsync(deleteProj, new { id }, transaction);
 
-                        await transaction.CommitAsync();
-                        return true;
+                      await transaction.CommitAsync();
+                      return true;
                     }
                     catch
                     {
@@ -153,25 +93,12 @@ namespace WebApp1.Repositories
                         throw;
                     }
                 }
-            }
         }
 
-        public async Task<DataTable> GetUnitsByProjectIdAsync(int projectId)
-        {
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                string query = "SELECT * FROM Units WHERE ProjectCode = @projectId";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@projectId", projectId);
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        await Task.Run(() => da.Fill(dt));
-                    }
-                }
-            }
-            return dt;
+        public async Task<IEnumerable<Unit>> GetUnitsByProjectId(int projectId)
+        { 
+            string query = "SELECT * FROM Units WHERE ProjectCode = @projectId";
+            return await _db.QueryAsync<Unit>(query, new { projectId });
         }
 
         public async Task<string> UploadImage(IFormFile file, string folderName)

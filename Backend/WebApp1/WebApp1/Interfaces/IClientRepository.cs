@@ -5,16 +5,16 @@ namespace WebApp1.Interfaces
 {
     public interface IClientRepository
     {
-        Task<DataTable> GetAllProjects();
-        Task<DataTable> GetUnitsByProject(int projectid);
-        Task<DataTable> GetUnitPrice(int unitid);
+        Task<IEnumerable<Project>> GetAllProjects();
+        Task<IEnumerable<Unit>> GetUnitsByProject(int projectid);
+        Task<IEnumerable<Unit>> GetUnitPrice(int unitid);
         Task<(int id, bool saved, bool updated)> UpsertClient(Client cl);
         Task<bool> DeleteClient(int id);
-        Task<DataTable> GetAllClients();
-        Task<DataTable> GetClientNegotiations(int clientid);
-        Task<(DataTable dt, List<Negotiation> negotiations, bool isnull)> GetFirstClient();
-         Task<(DataTable dt, List<Negotiation> negotiations, bool isnull)> GetLastClient();
-        Task<(DataTable dt, List<Negotiation> negotiations, bool isLast, bool isEmpty)> GetNextClient(int currentId);
-        Task<(DataTable dt, List<Negotiation> negotiations, bool isFirst, bool isEmpty)> GetPreviousClient(int currentId);
+        Task<IEnumerable<Client>> GetAllClients();
+        Task<IEnumerable<Negotiation>> GetClientNegotiations(int clientid);
+        Task<(Client? client, IEnumerable<Negotiation> negotiations, bool isnull)> GetFirstClient();
+        Task<(Client? client, IEnumerable<Negotiation> negotiations_l, bool isnull)> GetLastClient();
+        Task<(Client? client, IEnumerable<Negotiation> negotiations, bool isLast, bool isEmpty)> GetNextClient(int currentId);
+        Task<(Client? client, IEnumerable<Negotiation> negotiations, bool isFirst, bool isEmpty)> GetPreviousClient(int currentId);
     }
 }

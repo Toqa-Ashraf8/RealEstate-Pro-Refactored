@@ -6,10 +6,10 @@ namespace WebApp1.Interfaces
 {
     public interface IProjectRepository
     {
-        Task<DataTable> GetAllProjectsAsync();
-        Task<int> UpsertProjectWithUnitsAsync(Project prj);
-        Task<bool> DeleteProjectAsync(int id);
-        Task<DataTable> GetUnitsByProjectIdAsync(int projectId);
+        Task<IEnumerable<Project>> GetAllProjects();
+        Task<int> UpsertProjectWithUnits(Project prj);
+        Task<bool> DeleteProject(int id);
+        Task<IEnumerable<Unit>> GetUnitsByProjectId(int projectId);
         Task <string> UploadImage(IFormFile file, string folderName);
     }
 }

@@ -4,12 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using System.Data;
+using System.Data.SqlClient;
 using System.Reflection.Emit;
 using System.Text;
 using WebApp1.EF;
 using WebApp1.Interfaces;
 using WebApp1.Models;
 using WebApp1.Repositories;
+using System.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,7 +72,11 @@ builder.Services.AddAuthentication(options =>
  });
 builder.Services.AddAuthorization();
 
+builder.Services.AddScoped<DbConnection>(sp =>
+    new SqlConnection(builder.Configuration.GetConnectionString("connT")));
+
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 

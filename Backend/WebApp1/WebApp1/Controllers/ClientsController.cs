@@ -137,7 +137,7 @@ namespace WebApp1.Controllers
         {
             try
             {
-                var (dt, negotiations, isnull) = await _repo.GetFirstClient();
+                var (client, negotiations, isnull) = await _repo.GetFirstClient();
 
                 if (isnull)
                 {
@@ -145,7 +145,7 @@ namespace WebApp1.Controllers
                 }
                 return Ok(new
                 {
-                    clientData = dt, 
+                    clientData = client, 
                     negotiations = negotiations,
                     isnull = isnull
                 });
@@ -163,7 +163,7 @@ namespace WebApp1.Controllers
 
             try
             {
-                var (dt, negotiations_l, isnull) = await _repo.GetLastClient();
+                var (client, negotiations_l, isnull) = await _repo.GetLastClient();
 
                 if (isnull)
                 {
@@ -171,7 +171,7 @@ namespace WebApp1.Controllers
                 }
                 return Ok(new
                 {
-                    dt = dt,
+                    dt = client,
                     negotiations_l = negotiations_l,
                     isnull = isnull
                 });
@@ -189,8 +189,8 @@ namespace WebApp1.Controllers
         {
             try
             {
-                var (dt, negs, isLast, isEmpty) = await _repo.GetNextClient(id);
-                return Ok(new { dt, negotiations = negs, isLast, isEmpty });
+                var (client, negotiations, isLast, isEmpty) = await _repo.GetNextClient(id);
+                return Ok(new { client, negotiations = negotiations, isLast, isEmpty });
             }
             catch (Exception ex)
             {
