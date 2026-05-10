@@ -43,7 +43,6 @@ public class ProjectController : ControllerBase
     }
 
     //// Delete Projects (Master) With Units (Details) 
-    [Route("DeleteProject")]
     [HttpDelete("DeleteProject/{id}")]
     public async Task<IActionResult> DeleteProject(int id)
     {

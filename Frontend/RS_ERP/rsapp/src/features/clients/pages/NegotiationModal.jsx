@@ -37,7 +37,7 @@ const NegotiationModal = () => {
 
   useEffect(() => {
     dispatch(fetchProjects());
-    if (negotiation.ProjectCode !== -1 && negotiation.ProjectCode) {
+    if (negotiation.ProjectCode !== '-1' && negotiation.ProjectCode) {
       dispatch(fetchUnitsByProject(negotiation.ProjectCode));
     }
   }, [dispatch]);
@@ -124,6 +124,7 @@ const NegotiationModal = () => {
                     className="form-control-modern"
                     ref={negotiationPriceRef}
                     name="NegotiationPrice"
+                    autoComplete="off"
                     value={negotiation.NegotiationPrice || ""}
                     onChange={handleInputsChange}
                     onBlur={() => dispatch(calculateDiscount())}
@@ -136,6 +137,7 @@ const NegotiationModal = () => {
                     type="text"
                     className="form-control-modern"
                     name="DiscountAmount"
+                    autoComplete="off"
                     value={negotiation.DiscountAmount || ""}
                     onChange={handleInputsChange}
                   />

@@ -7,7 +7,6 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using WebApp1.Core.Interfaces;
 using WebApp1.Core.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace WebApp1.Repositories
@@ -49,8 +48,8 @@ namespace WebApp1.Repositories
                 {
 
                     string sqlin = @"insert into Clients (ClientName,PhoneNumber, ClientStatus,Notes) 
-                                           values(@ClientName,@PhoneNumber,@ClientStatus,@Notes)
-                                           SELECT CAST (SCOPE_IDENTITY as int);";
+                                           values(@ClientName,@PhoneNumber,@ClientStatus,@Notes);
+                                           SELECT CAST (SCOPE_IDENTITY() as int);";
                     id = await _db.ExecuteScalarAsync<int>(sqlin, cl, transaction);
                     saved = true;
                 }
@@ -61,10 +60,10 @@ namespace WebApp1.Repositories
                     await _db.ExecuteAsync(sqlupdate, cl, transaction);
                     updated = true;
                 }
+               
+                await _db.ExecuteAsync("delete Negotiations where ClientID=@ClientID", new { ClientID= id }, transaction);
                 if (cl.negotiations.Count > 0)
                 {
-                    await _db.ExecuteAsync("delete Negotiations where ClientID=@ClientID", new { id }, transaction);
-
                     string insertDetails = @"insert into Negotiations 
                                                     (serialCode,ClientID,ClientName,ProjectCode,ProjectName,
                                                     UnitID,unitName,OriginalPrice,NegotiationPrice, DiscountAmount
@@ -72,10 +71,11 @@ namespace WebApp1.Repositories
                                                     values(@serialCode,@ClientID,@ClientName,@ProjectCode,@ProjectName,@UnitID
                                                    ,@unitName,@OriginalPrice,@NegotiationPrice,@DiscountAmount
                                                    ,@NegotiationStatus,@NegotiationDate,@checkedByAdmin,@Requester,@Reserved)
-                                                    SELECT CAST (SCOPE_IDENTITY as int)";
+                                                    SELECT CAST (SCOPE_IDENTITY() as int)";
                     cl.negotiations.ForEach(n => n.ClientID = id);
+                    cl.negotiations.ForEach(n => n.ClientName = cl.ClientName);
                     await _db.ExecuteAsync(insertDetails, cl.negotiations, transaction);
-                }
+                }                
                 await transaction.CommitAsync();
                 return (id, saved, updated);
             }
@@ -94,8 +94,9 @@ namespace WebApp1.Repositories
             {
                 if (id > 0)
                 {
-                    await _db.ExecuteAsync("delete Negotiations where ClientID=@ClientID", new { id }, transaction);
-                    await _db.ExecuteAsync("delete Clients where ClientID=@ClientID", new { id }, transaction);
+                    var parm = new { ClientID = id };
+                    await _db.ExecuteAsync("delete Negotiations where ClientID=@ClientID", parm, transaction);
+                    await _db.ExecuteAsync("delete Clients where ClientID=@ClientID", parm, transaction);
                 }
                 await transaction.CommitAsync();
                 return true;
@@ -115,7 +116,7 @@ namespace WebApp1.Repositories
 
         public async Task<IEnumerable<Negotiation>> GetClientNegotiations(int clientid)
         {
-            return await GetAll<Negotiation>("select * from Negotiations where ClientID=@ClientID", new { clientid });
+            return await GetAll<Negotiation>("select * from Negotiations where ClientID=@ClientID", new { ClientID= clientid });
         }
 
         public async Task<(Client? client, IEnumerable<Negotiation> negotiations, bool isnull)> GetFirstClient()
@@ -135,12 +136,13 @@ namespace WebApp1.Repositories
 
         public async Task<(Client? client, IEnumerable<Negotiation> negotiations_l, bool isnull)> GetLastClient()
         {
-             string sql= @"select top(1)* from Clients order by ClientID DESC;
-                          select * from Negotiations where ClientID=(select top(1) from Clients order by ClientID DESC)";
+            string sql = @"
+                SELECT TOP(1) * FROM Clients ORDER BY ClientID DESC;
+                SELECT * FROM Negotiations WHERE ClientID = (SELECT TOP(1) ClientID FROM Clients ORDER BY ClientID DESC)";
+
             using var multi = await _db.QueryMultipleAsync(sql);
 
-            var client=await multi.ReadFirstOrDefaultAsync<Client>();
-
+            var client = await multi.ReadFirstOrDefaultAsync<Client>();
             var negotiations_l = await multi.ReadAsync<Negotiation>();
 
             bool isnull = (client == null);

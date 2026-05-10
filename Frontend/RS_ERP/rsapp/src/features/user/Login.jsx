@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, LogIn } from 'lucide-react';
 import './Login.css';
@@ -13,6 +13,7 @@ const Login = () => {
   const {isLoading} = useSelector((state) => state.ui);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const emailRef=useRef();
 
 const handleChangeValues = (e) => {
   const {name, value} = e.target;
@@ -34,7 +35,9 @@ const handleChangeValues = (e) => {
       handleLogin()
     }
   }
-
+useEffect(()=>{
+ emailRef.current.focus(); 
+},[])
   return (
     <div className="login-page-container">
       <motion.div 
@@ -43,13 +46,12 @@ const handleChangeValues = (e) => {
         transition={{ duration: 0.5 }}
         className="login-wrapper"
       >
-        <div className="login-main-card">
+        <div className="login-main-card" onKeyDown={handleKeyDown}>
           <div className="login-header">
             <h3 className="login-title">تسجيل الدخول</h3>
           </div>
 
-          <div className="login-input-row" onKeyDown={handleKeyDown}>
-      
+          <div className="login-input-row" >
             <div className="login-input-group">
               <label className="login-label">
                 <Mail size={18}/> البريد الإلكتروني
@@ -59,6 +61,7 @@ const handleChangeValues = (e) => {
                 className="login-control" 
                 autoComplete="off"
                 name='Email'
+                ref={emailRef}
                 value={user.Email}
                 onChange={handleChangeValues}
               />

@@ -149,7 +149,7 @@ const clientSlice = createSlice({
             })
            
             .addCase(fetchFirstClient.fulfilled, (state, action) => {
-                state.client = action.payload.dt[0];
+                state.client = action.payload.clientData;
                 state.negotiationsList=action.payload.negotiations;
                 if(action.payload.isnull===true){
                     state.client=initialState.client;
@@ -160,7 +160,7 @@ const clientSlice = createSlice({
                 }
             })
             .addCase(fetchLastClient.fulfilled, (state, action) => {
-                state.client = action.payload.dt[0];
+                state.client = action.payload.dt;
                 state.negotiationsList=action.payload.negotiations_l;
                    if(action.payload.isnull===true){
                     state.client=initialState.client;
@@ -171,7 +171,7 @@ const clientSlice = createSlice({
                 }
             })
             .addCase(fetchNextClient.fulfilled, (state, action) => {
-                state.client = action.payload.dt[0];
+                state.client = action.payload.dt;
                 state.negotiationsList=action.payload.negotiations;
                 if(action.payload.islast===true){
                     toast.info("لا توجد سجلات تالية,انت بالفعل في السجل الأخير", {
@@ -190,7 +190,7 @@ const clientSlice = createSlice({
            
             .addCase(fetchPreviousClient.fulfilled, (state, action) => {
                 state.loading = false;
-                state.client = action.payload.dt[0];
+                state.client = action.payload.dt;
                 state.negotiationsList=action.payload.negotiations;
                if(action.payload.isfirst===true){
                  toast.info("لا توجد سجلات سابقة,انت بالفعل في السجل الأول", {

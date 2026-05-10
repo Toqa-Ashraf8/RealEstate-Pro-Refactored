@@ -21,7 +21,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 // Add services to the container.
 
-builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,10 +31,12 @@ builder.Services.AddCors(c=>
 c.AddPolicy("AllowOrigin",options=>options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 //Enable Json Serialize 
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(c =>
-c.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
- .AddNewtonsoftJson(c =>
-c.SerializerSettings.ContractResolver = new DefaultContractResolver());
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+    });
 
 //Enable EF
 builder.Services.AddDbContext<DataContext>(options =>
@@ -79,13 +81,11 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
-
-
-
+builder.Services.AddScoped<INegotiationRepository, NegotiationRepository>();
 
 var app = builder.Build();
 
-app.UseExceptionHandler();
+//app.UseExceptionHandler();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -95,33 +95,33 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider=new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Photos_projects")),
-      RequestPath = "/Photos_projects"
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "Photos_projects")),
+    RequestPath = "/Photos/Photos_projects"
 });
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Photos_Units")),
-    RequestPath = "/Photos_Units"
+        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "Photos_Units")),
+    RequestPath = "/Photos/Photos_Units"
 });
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "NationalIDCard_Images")),
-    RequestPath = "/NationalIDCard_Images"
+        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "NationalIDCard_Images")),
+    RequestPath = "/Photos/NationalIDCard_Images"
 });
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Checks_Images")),
-    RequestPath = "/Checks_Images"
+        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "Checks_Images")),
+    RequestPath = "/Photos/Checks_Images"
 });
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "InstallmentChecks_Images")),
-    RequestPath = "/InstallmentChecks_Images"
+        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "InstallmentChecks_Images")),
+    RequestPath = "/Photos/InstallmentChecks_Images"
 });
 
 app.UseCors("AllowOrigin");

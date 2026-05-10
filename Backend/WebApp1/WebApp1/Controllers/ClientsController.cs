@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
@@ -190,7 +191,7 @@ namespace WebApp1.Controllers
             try
             {
                 var (client, negotiations, isLast, isEmpty) = await _repo.GetNextClient(id);
-                return Ok(new { client, negotiations = negotiations, isLast, isEmpty });
+                return Ok(new { dt=client, negotiations = negotiations, islast= isLast, empty_db=isEmpty });
             }
             catch (Exception ex)
             {
@@ -210,8 +211,8 @@ namespace WebApp1.Controllers
                 {
                     dt,
                     negotiations,
-                    isFirst,
-                    isEmpty
+                    isfirst=isFirst,
+                    empty_db = isEmpty
                 });
             }
             catch (Exception ex)

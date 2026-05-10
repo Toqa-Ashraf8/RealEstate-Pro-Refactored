@@ -20,7 +20,7 @@ namespace WebApp1.Repositories
        
         public async Task <IEnumerable<Project>> GetAllProjects()
         {
-            return await GetAll<Project>("SELECT ProjectCode, ProjectName FROM Projects");
+            return await GetAll<Project>("SELECT * FROM Projects");
         }
 
         public async Task<(int id , bool saved , bool updated )> UpsertProjectWithUnits(Project prj)
@@ -103,7 +103,7 @@ namespace WebApp1.Repositories
 
         public async Task<IEnumerable<Unit>> GetUnitsByProjectId(int projectId)
         { 
-            return await GetAll<Unit>("SELECT * FROM Units WHERE ProjectCode = @projectId", new { projectId });
+            return await GetAll<Unit>("SELECT * FROM Units WHERE ProjectCode = @projectId", new { projectId= projectId });
         }
 
         public async Task<string> UploadImage(IFormFile file, string folderName)

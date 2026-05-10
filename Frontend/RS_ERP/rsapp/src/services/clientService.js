@@ -49,12 +49,12 @@ export const fetchLastClient=createAsyncThunk("fetchLastClient/clients",async()=
     return resp;
 })
 export const fetchNextClient=createAsyncThunk("fetchNextClient/clients",async(id)=>{
-    const resp=await axios.post(variables.CLIENTS_API+"GetNextClientById?id="+id)
+    const resp=await axios.post(variables.CLIENTS_API+"GetNextClient?id="+id)
     .then((res)=>res.data);
     return resp;
 })
 export const fetchPreviousClient=createAsyncThunk("fetchPreviousClient/clients",async(id)=>{
-    const resp=await axios.post(variables.CLIENTS_API+"GetPreviousClientById?id="+id)
+    const resp=await axios.post(variables.CLIENTS_API+"GetPreviousClient?id="+id)
     .then((res)=>res.data);
     return resp;
 })

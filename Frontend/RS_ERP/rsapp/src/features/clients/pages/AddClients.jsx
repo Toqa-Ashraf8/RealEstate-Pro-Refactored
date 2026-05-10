@@ -98,8 +98,9 @@ dispatch(editingNegotiationRow(index));
 }
 const handleSaveClient=async()=>{  
 const parms={...client,negotiations:negotiationsList.map(item=>({ ...item,Requester:userDetails.UserName}))}
-       try {
-        const result = await dispatch(saveClient(parms)).unwrap();
+       console.log("parms",parms);
+ try { 
+         const result = await dispatch(saveClient(parms)).unwrap();
          if(result.saved){
           toast.success("تم حفظ البيانات بنجاح ", {
             theme: "colored",
@@ -117,7 +118,7 @@ const parms={...client,negotiations:negotiationsList.map(item=>({ ...item,Reques
            theme: "colored",
            position: "top-center",
          });
-       }     
+       }    
 }
 
 const handlePreviousClient=()=>{
@@ -143,7 +144,19 @@ const handleNextClient=()=>{
     });
   }
 }
-
+const handleDeleteClient=()=>{
+  if(client.ClientID ===0){
+    toast.error("اختر عميل للحذف!", {
+      theme: "colored", 
+      position: "top-left",
+    });
+    return;
+    
+  }else{
+    dispatch(toggleDeleteClientModal(true));
+  }
+}
+console.log("client",client);
 useEffect(()=>{
   if(nameRef.current.focus())nameRef.current.focus();
 },[])
@@ -180,7 +193,7 @@ useEffect(()=>{
         </span>
     </button>
 
-    <button className="icon-btn" disabled={isLoading} onClick={() => dispatch(toggleDeleteClientModal(true))}>
+    <button className="icon-btn" disabled={isLoading} onClick={handleDeleteClient}>
         <span className="btn_c" title="حذف">
             <AiOutlineUserDelete size={24} color="#ef4444"/>
         </span>
@@ -195,26 +208,56 @@ useEffect(()=>{
     < motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} div className="main_crm">
        <div className="data_user">
       <label className="lbl_crm"><User size={18} />المسئول</label>
-      <input type="text" className="userName_inp" disabled value={userDetails.UserName} />
+      <input 
+      type="text" 
+      className="userName_inp" 
+      disabled 
+      value={userDetails.UserName} />
     </div>
   <div className="crm_cnt">
     <div className="data_crm">
       <label className="lbl_crm"><Hash size={18} /> كود العميل</label>
-      <input type="text" className="crm_inp" name="ClientID" value={client.ClientID || 0}  ref={codeRef} />
+      <input 
+        type="text" 
+        className="crm_inp" 
+        name="ClientID" 
+        value={client.ClientID || 0}  
+        ref={codeRef} 
+      />
     </div>
      <div className="data_crm">
       <label className="lbl_crm"><User size={18} /> إسم العميل</label>
-      <input type="text" className="crm_inp" name="ClientName" value={client.ClientName || ""} onChange={handleInputChange} autoComplete="off" ref={nameRef} />
+      <input 
+        type="text" 
+        className="crm_inp" 
+        name="ClientName" 
+        autoComplete="off"
+        value={client.ClientName || ""} 
+        onChange={handleInputChange} 
+        autoComplete="off" 
+        ref={nameRef} 
+      />
     </div>
 
     <div className="data_crm">
       <label className="lbl_crm"><Phone size={18} /> رقم الموبايل</label>
-      <input type="text" className="crm_inp" name="PhoneNumber" value={client.PhoneNumber || ""} onChange={handleInputChange} />
+      <input 
+        type="text" 
+        className="crm_inp" 
+        name="PhoneNumber" 
+        autoComplete="off"
+        value={client.PhoneNumber || ""} 
+        onChange={handleInputChange} 
+      />
     </div>
 
     <div className="data_crm">
       <label className="lbl_crm"><ReceiptText size={18} /> الحالة</label>
-      <select className="crm_select" name="ClientStatus" value={client.ClientStatus || ""} onChange={handleInputChange}>
+      <select 
+      className="crm_select" 
+      name="ClientStatus" 
+      value={client.ClientStatus || ""} 
+      onChange={handleInputChange}>
         <option value="-1">-إختر-</option>
         <option value="عميل جديد">عميل جديد</option>
         <option value="استفسار">استفسار</option>
@@ -224,7 +267,13 @@ useEffect(()=>{
     </div>
     <div className="data_crm">
       <label className="lbl_crm"><NotebookPen size={18} /> ملاحظات</label>
-      <textarea className="crm_inp crm_notes" name="Notes" value={client.Notes || ""} onChange={handleInputChange}></textarea>
+      <textarea 
+        autoComplete="off"
+        className="crm_inp crm_notes" 
+        name="Notes" 
+        value={client.Notes || ""} 
+        onChange={handleInputChange}
+      ></textarea>
     </div>
   </div>
 </motion.div>

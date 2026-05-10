@@ -29,11 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="InstallmentChecks_Images\" />
-    <Folder Include="NationalIDCard_Images\" />
-    <Folder Include="Checks_Images\" />
-    <Folder Include="Photos_units\" />
-    <Folder Include="Photos_projects\" />
+    <Folder Include="Photos\InstallmentChecks_Images\" />
+    <Folder Include="Photos\NationalIDCard_Images\" />
+    <Folder Include="Photos\Checks_Images\" />
+    <Folder Include="Photos\Photos_units\" />
+    <Folder Include="Photos\Photos_projects\" />
   </ItemGroup>
 
 </Project>
