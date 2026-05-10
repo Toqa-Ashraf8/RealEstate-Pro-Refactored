@@ -2,9 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-using WebApp1.Models;
-namespace WebApp1.Models
+namespace WebApp1.Core.Models
 { 
     public class Unit
      {

@@ -12,15 +12,20 @@ const ProjectDeleteModal = () => {
   const dispatch = useDispatch();
 
   const deleteForm = async () => {
-    if(project.ProjectCode >0 ){
-      await dispatch(deleteProject(project.ProjectCode));
-      await dispatch(toggleDeleteProjectModal(false));
-      await dispatch(resetProjectForm());
-      toast.error("تم حذف بيانات المشروع بنجاح", {
+    try {
+      if(project.ProjectCode >0 ){
+      const result=await dispatch(deleteProject(project.ProjectCode)).unwrap();
+      if(result.delOk){
+       toast.error("تم حذف بيانات المشروع بنجاح", {
         theme: "colored",
         position: "top-right"
       });
+      }
+      console.log("delete result",result,"project.ProjectCode",project.ProjectCode);
     }
+    } catch (error) {
+      dispatch(toggleDeleteProjectModal(false))
+    }  
   }
 
   return (

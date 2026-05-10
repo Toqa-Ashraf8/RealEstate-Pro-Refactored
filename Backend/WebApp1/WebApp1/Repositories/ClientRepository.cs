@@ -5,35 +5,33 @@ using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using WebApp1.Interfaces;
-using WebApp1.Models;
+using WebApp1.Core.Interfaces;
+using WebApp1.Core.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace WebApp1.Repositories
 {
-    public class ClientRepository : IClientRepository
+    public class ClientRepository :BaseRepository, IClientRepository
     {
-        private readonly DbConnection _db;
-        public ClientRepository(DbConnection db)
-        {
-            _db = db;
-        }
+        
+        public ClientRepository(DbConnection db) : base(db){}
+        
         public async Task<IEnumerable<Project>> GetAllProjects()
         {
-            string query = "select ProjectCode,ProjectName from Projects";
-            return await _db.QueryAsync<Project>(query);
+            return await GetAll<Project>("select ProjectCode,ProjectName from Projects");
         }
         public async Task<IEnumerable<Unit>> GetUnitsByProject(int projectid)
         {
-
-            string query = @"select * from vw_Project_Available_Units 
-                            where ProjectCode=@ProjectCode AND ReservedStatus=0";
-            return await _db.QueryAsync<Unit>(query, new { ProjectCode= projectid });
+            return await GetAll<Unit>(@"select * from vw_Project_Available_Units 
+                            where ProjectCode = @ProjectCode AND ReservedStatus = 0", 
+                            new { 
+                                ProjectCode= projectid 
+                            });
         }
         public async Task<IEnumerable<Unit>> GetUnitPrice(int unitid)
         {
-            string query = @"select * from Units where UnitID =@UnitID";
-            return await _db.QueryAsync<Unit>(query, new { UnitID=unitid });
+            return await GetAll<Unit>("select * from Units where UnitID =@UnitID", new { UnitID=unitid });
         }
 
         public async Task<(int id, bool saved, bool updated)> UpsertClient(Client cl)
@@ -112,14 +110,12 @@ namespace WebApp1.Repositories
 
         public async Task<IEnumerable<Client>> GetAllClients()
         {
-            string query = "select * from Clients";
-            return await _db.QueryAsync<Client>(query);
+            return await GetAll<Client>("select * from Clients");
         }
 
         public async Task<IEnumerable<Negotiation>> GetClientNegotiations(int clientid)
         {
-            string query = "select * from Negotiations where ClientID=@ClientID";
-            return await _db.QueryAsync<Negotiation>(query, new { clientid });
+            return await GetAll<Negotiation>("select * from Negotiations where ClientID=@ClientID", new { clientid });
         }
 
         public async Task<(Client? client, IEnumerable<Negotiation> negotiations, bool isnull)> GetFirstClient()
@@ -140,7 +136,7 @@ namespace WebApp1.Repositories
         public async Task<(Client? client, IEnumerable<Negotiation> negotiations_l, bool isnull)> GetLastClient()
         {
              string sql= @"select top(1)* from Clients order by ClientID DESC;
-                          select * from Negotiations where ClientID=(select top(1)* from Clients order by ClientID DESC)";
+                          select * from Negotiations where ClientID=(select top(1) from Clients order by ClientID DESC)";
             using var multi = await _db.QueryMultipleAsync(sql);
 
             var client=await multi.ReadFirstOrDefaultAsync<Client>();

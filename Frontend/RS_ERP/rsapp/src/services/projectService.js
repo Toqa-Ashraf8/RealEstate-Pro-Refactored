@@ -18,7 +18,7 @@ export const uploadUnitImage = createAsyncThunk("uploadUnitImage/projects", asyn
     return resp;
 })
 export const deleteProject = createAsyncThunk("deleteProject/projects", async (id) => {
-    const resp = await axios.post(variables.PROJECTS_API + "DeleteProject/" + id)
+    const resp = await axios.delete(variables.PROJECTS_API + "DeleteProject/" + id)
         .then((res) => res.data);
     return resp;
 })

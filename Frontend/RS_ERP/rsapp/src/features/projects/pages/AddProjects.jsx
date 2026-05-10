@@ -80,18 +80,20 @@ const AddProjects = () => {
           theme: "colored",
           position: "top-left",
         });
-      } else {
+      }  
+      if(result.saved) {
         toast.success("تم الحفظ بنجاح!", {
           theme: "colored",
           position: "top-left",
         });
       }
-    } catch (error) {
-      toast.error("حدث خطأ في الاتصال بالخادم", {
-        theme: "colored",
-        position: "top-left",
-      });
-    } 
+       if(result.updated) {
+        toast.success("تم التعديل بنجاح!", {
+          theme: "colored",
+          position: "top-left",
+        });
+      }
+    } catch (error) {}
   };
   const handleOpenUnitModal = () => {
     dispatch(prepareUnitModal(unitsList.length + 1));
@@ -103,18 +105,19 @@ const AddProjects = () => {
     dispatch(SetRowIndexvalue(index));
   };
   const handleDeleteProject=()=>{
-    if(project.ProjectCode===0){
-       toast.error("اختر مشروع لحذفه أولا !", {
+       if(project.ProjectCode===0){
+       toast.error("اختر مشروع للحذف !", {
               theme: "colored",
               position: "top-right"
         });
         return;
     }
     else{
-      dispatch(toggleDeleteProjectModal(true));
+       dispatch(toggleDeleteProjectModal(true));
     }
+   
+   
   }
-  console.log("unitsList",unitsList  )
   return (
     <div className="page-container">
       <div className="add-project-wrapper" dir="rtl">

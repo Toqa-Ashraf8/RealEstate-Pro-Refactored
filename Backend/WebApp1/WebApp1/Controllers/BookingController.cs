@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.Contracts;
+using WebApp1.Core.DTO;
+using WebApp1.Core.Models;
 using WebApp1.EF;
-using WebApp1.Models;
-using WebApp1.ViewModels;
 
 namespace WebApp1.Controllers
 {

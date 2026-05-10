@@ -1,6 +1,6 @@
 ﻿using System.Security.Principal;
 
-namespace WebApp1.ViewModels
+namespace WebApp1.Core.DTO
 {
     public class NegotiationViewModel
     {

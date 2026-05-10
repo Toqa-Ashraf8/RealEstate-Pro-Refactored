@@ -4,50 +4,37 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.Metrics;
+using WebApp1.Core.Interfaces;
+using WebApp1.Core.Models;
 using WebApp1.EF;
-using WebApp1.Models;
 namespace WebApp1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class NegotiationController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly INegotiationRepository _repo;
         private readonly IWebHostEnvironment _env;
         SqlConnection conn;
-        public NegotiationController(DataContext context, IWebHostEnvironment env)
+        public NegotiationController(INegotiationRepository repo,IWebHostEnvironment env)
         {
-            _context = context;
             _env = env;
-            conn = new SqlConnection(_context.Database.GetConnectionString());
+            _repo = repo;
         }
         [Route("GetPendingNegotiationsCount")]
         [HttpGet]
-        public JsonResult GetPendingNegotiationsCount()
+        public async Task<IActionResult> GetPendingNegotiationsCount()
         {
-            string query = "SELECT COUNT(*) FROM Negotiations where checkedByAdmin=0";
-
-
-            using (SqlCommand cmd = new SqlCommand(query, conn))
-            {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-                int count = (int)cmd.ExecuteScalar();
-                if (conn.State == ConnectionState.Open) conn.Close();
-                return new JsonResult(count);
-            }
-
+            var count=await _repo.GetPendingNegotiationsCount();
+            return Ok(new { count = count });
         }
         // Get Count Number Of Unchecked Requests By Admin 
         [Route("GetPendingNegotiations")]
         [HttpGet]
-        public JsonResult GetPendingNegotiations()
+        public async Task<IActionResult> GetPendingNegotiations()
         {
-          
-            DataTable dt = new DataTable();
-            string sqlg = "select * from Negotiations where checkedByAdmin=0";
-            SqlDataAdapter da = new SqlDataAdapter(sqlg, conn);
-            da.Fill(dt);
-            return new JsonResult(dt);
+            var dt= await _repo.GetPendingNegotiations();
+            return Ok(new { dt = dt });
         }
         //Approve Or Reject Negotiation Request By Admin 
         [Route("ProcessNegotiationReview")]

@@ -136,7 +136,10 @@ const projectSlice = createSlice({
             })
             
             .addCase(deleteProject.fulfilled, (state, action) => {
-                state.isDeleted = action.payload;
+                 state.project=initialState.project;
+                 state.projectImageName="";
+                 state.unitsList=[];
+                 state.isDeleteProjectModalOpen=false;
             })
          
             .addCase(fetchProjectsList.fulfilled, (state, action) => {

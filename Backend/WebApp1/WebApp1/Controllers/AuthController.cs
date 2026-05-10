@@ -10,8 +10,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using WebApp1.Core.Models;
 using WebApp1.EF;
-using WebApp1.Models;
 
 
 namespace WebApp1.Controllers

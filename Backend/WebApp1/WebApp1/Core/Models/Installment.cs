@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApp1.Models
+namespace WebApp1.Core.Models
 {
     public class Installment
     {

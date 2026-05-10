@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApp1.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
-using WebApp1.Models;
+using WebApp1.Core.Interfaces;
+using WebApp1.Core.Models;
 namespace WebApp1.Controllers;
 
 
@@ -33,9 +33,8 @@ public class ProjectController : ControllerBase
         try
         {
             if (prj == null) return BadRequest("Project data is null");
-
-            int projectId = await _repo.UpsertProjectWithUnits(prj);
-            return Ok(new { id = projectId, message = "Saved Successfully" });
+            var (id,saved,updated)= await _repo.UpsertProjectWithUnits(prj);
+            return Ok(new { id = id,saved=saved,updated=updated });
         }
         catch (Exception ex)
         {
@@ -44,6 +43,7 @@ public class ProjectController : ControllerBase
     }
 
     //// Delete Projects (Master) With Units (Details) 
+    [Route("DeleteProject")]
     [HttpDelete("DeleteProject/{id}")]
     public async Task<IActionResult> DeleteProject(int id)
     {
@@ -65,7 +65,6 @@ public class ProjectController : ControllerBase
     {
         var dt = await _repo.GetAllProjects();
         return Ok(dt);
-
     }
     [HttpGet("GetUnitsByProject/{id}")]
     public async Task<IActionResult> GetUnitsByProject(int id)

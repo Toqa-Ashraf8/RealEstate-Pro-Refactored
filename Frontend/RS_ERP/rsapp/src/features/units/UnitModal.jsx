@@ -47,17 +47,35 @@ const HandleChangeImage=async(e)=>{
             <div className="col-lg-8 order-1">
               <div className="data_cntu">
                 <label className='data_lbl'>كود الوحدة</label>
-                <input type="text" className='form-control-modern inp_code' name='serial' disabled value={selectedUnit.serial} />
+                <input 
+                type="text" 
+                className='form-control-modern inp_code' 
+                name='serial' 
+                disabled 
+                value={selectedUnit.serial} />
               </div>
 
               <div className="data_cntu">
                 <label className='data_lbl'>إسم الوحدة</label>
-                <input type="text" className='form-control-modern' autoFocus name='unitName' value={selectedUnit.unitName} onChange={HandleChangeV} autoComplete='off' />
+                <input 
+                type="text" 
+                className='form-control-modern' 
+                autoFocus 
+                name='unitName'
+                autoComplete='off' 
+                value={selectedUnit.unitName} 
+                onChange={HandleChangeV} 
+                autoComplete='off' />
               </div>
 
               <div className="data_cntu">
                 <label className='data_lbl'>الدور</label>
-                <select className='form-select-modern' name='Floor' value={selectedUnit.Floor} onChange={HandleChangeV}>
+                <select 
+                className='form-select-modern' 
+                name='Floor' 
+                value={selectedUnit.Floor} 
+                onChange={HandleChangeV}
+                >
                   <option value="-1">-- إختر الدور --</option>
                   <option value="الأول">الأول</option>
                   <option value="الثاني">الثاني</option>
@@ -70,6 +88,7 @@ const HandleChangeImage=async(e)=>{
                 <label className='data_lbl'>المساحة (م²)</label>
                 <input 
                 type="text" 
+                autoComplete='off' 
                 className='form-control-modern' 
                 name='TotalArea' 
                 value={selectedUnit.TotalArea} 
@@ -82,6 +101,7 @@ const HandleChangeImage=async(e)=>{
                 <input type="text" 
                 className='form-control-modern' 
                 name='MeterPrice' 
+                autoComplete='off' 
                 value={selectedUnit.MeterPrice} 
                 onChange={HandleChangeV} 
                 onBlur={() => dispatch(calculateUnitTotalPrice())} 
@@ -94,6 +114,7 @@ const HandleChangeImage=async(e)=>{
                 type="text" 
                 className='form-control-modern' 
                 name='TotalPrice' 
+                autoComplete='off' 
                 value={selectedUnit.TotalPrice} 
                 onChange={HandleChangeV} />
               </div>

@@ -1,6 +1,6 @@
-﻿using WebApp1.Models;
+﻿
 
-namespace WebApp1.ViewModels
+namespace WebApp1.Core.DTO
 {
     public class UnitInstallments
     {
@@ -9,7 +9,7 @@ namespace WebApp1.ViewModels
         public string unitName { get; set; }
         public string ProjectName { get; set; }
         public DateTime? BookingDate { get; set; }
-     
+
         public List<dynamic> Installments { get; set; } = new List<dynamic>();
     }
 }

@@ -9,10 +9,10 @@ using System.Data.SqlClient;
 using System.Reflection.Emit;
 using System.Text;
 using WebApp1.EF;
-using WebApp1.Interfaces;
-using WebApp1.Models;
 using WebApp1.Repositories;
 using System.Data.Common;
+using WebApp1.Core.Interfaces;
+using WebApp1.Core.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

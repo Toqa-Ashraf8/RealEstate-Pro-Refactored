@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 
-namespace WebApp1.Models
+namespace WebApp1.Core.Models
 {
     public class Rejected_negotiations_phase
     {

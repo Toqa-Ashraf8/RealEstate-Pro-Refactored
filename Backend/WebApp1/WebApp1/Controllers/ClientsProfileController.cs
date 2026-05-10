@@ -6,9 +6,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Security.Cryptography;
+using WebApp1.Core.DTO;
 using WebApp1.EF;
-using WebApp1.Models;
-using WebApp1.ViewModels;
 namespace WebApp1.Controllers
 {
     [Route("api/[controller]")]

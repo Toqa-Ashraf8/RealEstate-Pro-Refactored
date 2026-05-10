@@ -1,6 +1,6 @@
-﻿using WebApp1.Models;
+﻿using WebApp1.Core.Models;
 
-namespace WebApp1.ViewModels
+namespace WebApp1.Core.DTO
 {
     public class FullBookingRequest
     {

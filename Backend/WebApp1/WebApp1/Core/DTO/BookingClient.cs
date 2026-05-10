@@ -1,4 +1,4 @@
-﻿namespace WebApp1.ViewModels
+﻿namespace WebApp1.Core.DTO
 {
     public class BookingClient
     {

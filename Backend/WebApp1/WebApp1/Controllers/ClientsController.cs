@@ -5,9 +5,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
+using WebApp1.Core.Interfaces;
+using WebApp1.Core.Models;
 using WebApp1.EF;
-using WebApp1.Interfaces;
-using WebApp1.Models;
 namespace WebApp1.Controllers
 {
     [Route("api/[controller]")]
