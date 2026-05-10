@@ -30,6 +30,27 @@ This version follows **Clean Architecture** to ensure a clear **Separation of Co
 * **Automated Installment Engine:** Real-time generation and tracking of payment schedules.
 * **Advanced Negotiation Workflow:** Integrated "Managerial Decision Engine" for price approvals.
 
+##  Database Architecture & Logic
+The system relies on a robust relational schema:
+* **One-to-Many:** Projects ➡️ Units.
+* **Many-to-One:** Negotiations ➡️ Clients & Units.
+* **Automation:** The system pulls validated client data into the booking phase automatically to ensure data integrity and zero manual entry errors. 
+
+###  Database Schema (ERD)
+The system relies on a highly normalized relational schema to ensure data integrity.
+![System ERD Diagram](./docs/erd-diagram.png)
+
+##  System Workflow (Business Logic)
+```mermaid
+graph TD
+A[Employee] -->|Registers| B(Client Data and Purchases)
+B -->|Submit| C{Admin/Manager}
+C -->|Reject| D[Rejected Negotiations]
+C -->|Approve| E[Client Booking Details]
+E -->|Generates| F[Automated Installment Plan]
+F -->|Tracks| G[Monthly Payments]
+```
+
 ## 🔧 Installation & Setup
 1. Clone the repo: `git clone https://github.com/Toqa-Ashraf8/RealEstate_Clean_Dapper.git`
 2. **Backend:** - Update `appsettings.json` with your SQL connection string.
