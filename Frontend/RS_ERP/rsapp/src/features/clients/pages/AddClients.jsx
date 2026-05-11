@@ -156,7 +156,7 @@ const handleDeleteClient=()=>{
     dispatch(toggleDeleteClientModal(true));
   }
 }
-console.log("client",client);
+
 useEffect(()=>{
   if(nameRef.current.focus())nameRef.current.focus();
 },[])

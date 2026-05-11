@@ -18,14 +18,7 @@ public abstract class BaseRepository
         {
             return await _db.QueryAsync<T>(query, parameters);
         }
-       protected async Task AddNewNegotiationPhase(Rejected_negotiations_phase entity,IDbTransaction transaction=null)
-       {
-         string sqlInsert = @"INSERT INTO Rejected_negotiations_phases 
-                         (ClientID, ProjectCode, UnitID, NegotiationCondition, SuggestedPrice, ReasonOfReject, CheckedDate) 
-                         VALUES (@ClientID, @ProjectCode, @UnitID, @NegotiationCondition, @SuggestedPrice, @ReasonOfReject, @CheckedDate)";
-
-           await _db.ExecuteAsync(sqlInsert, entity);
-    }
+   
 }
 
 

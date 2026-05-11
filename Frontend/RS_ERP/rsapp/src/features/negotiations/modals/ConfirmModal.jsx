@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {toast} from 'react-toastify'
 import { toggleConfirmModal } from '../../../assets/redux/negotiationSlice';
 import { 
+  fetchRejectedNegotiations,
   processNegotiationReview, 
   updateNegotiationStatus 
 } from '../../../services/negotiationService';
@@ -20,9 +21,8 @@ const dispatch = useDispatch();
     
 const acceptRequest = async () => {
   const dataSource = (rejected === 1) ? selectedRejectedNegotiation : selectedRequest;
- const acceptedrow = {...dataSource,CheckedDate:CurrentDate};
-
-    try {
+  const acceptedrow = {...dataSource,CheckedDate:CurrentDate};
+   try {
     if (rejected === 0) {
       await dispatch(processNegotiationReview(acceptedrow)).unwrap();
       toast.success("تم قبول الطلب!",{
@@ -35,13 +35,11 @@ const acceptRequest = async () => {
         theme:'colored'
       }
       );
+       await dispatch(fetchRejectedNegotiations());
     }
     dispatch(toggleConfirmModal(false));
   } 
-  catch (error) {
-    toast.warning("حدث خطأ أثناء الحفظ");
-  }    
- 
+  catch (error) { }  
 };
 
   return (

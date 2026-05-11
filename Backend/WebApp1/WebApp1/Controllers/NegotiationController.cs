@@ -25,7 +25,7 @@ namespace WebApp1.Controllers
         public async Task<IActionResult> GetPendingNegotiationsCount()
         {
             var count=await _repo.GetPendingNegotiationsCount();
-            return Ok(new { count = count });
+            return Ok(count);
         }
         // Get Count Number Of Unchecked Requests By Admin 
         [Route("GetPendingNegotiations")]
@@ -33,7 +33,7 @@ namespace WebApp1.Controllers
         public async Task<IActionResult> GetPendingNegotiations()
         {
             var dt= await _repo.GetPendingNegotiations();
-            return Ok(new { dt = dt });
+            return Ok(dt);
         }
         //Approve Or Reject Negotiation Request By Admin 
         [Route("ProcessNegotiationReview")]

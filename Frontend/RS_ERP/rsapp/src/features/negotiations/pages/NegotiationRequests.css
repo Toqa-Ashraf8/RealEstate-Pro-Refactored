@@ -121,19 +121,17 @@
 }
 
 .accept-btn 
-{ 
-    border: 1.5px solid #00b894; 
+{  
     color: #00b894; 
 }
 .reject-btn 
 { 
-    border: 1.5px solid #ff7675;
     color: #ff7675; 
 }
 .action-btn:hover 
 { 
     transform: translateY(-3px) scale(1.1); 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+   box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
 }
 .accept-btn:hover 
 { 

@@ -135,13 +135,13 @@ useEffect(() => {
                                         >
                                             <IoMdCheckmarkCircleOutline size={22} />
                                         </button>
-                                        <button 
+                                        <span 
                                             className="action-btn reject-btn" 
                                             title="رفض"
-                                           onClick={() =>rejectRequest(index)}
+                                            onClick={() =>rejectRequest(index)}
                                         >
                                             <CgCloseR size={22} />
-                                        </button>
+                                        </span>
                                     </div>
                                 </td>
                             </tr>

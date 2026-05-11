@@ -1,6 +1,4 @@
 ﻿using Dapper;
-using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Data.Common;
 using WebApp1.Core.Interfaces;
 using WebApp1.Core.Models;
@@ -9,11 +7,8 @@ namespace WebApp1.Repositories
 {
     public class NegotiationRepository : BaseRepository, INegotiationRepository
     {
-
-        public NegotiationRepository(DbConnection db) : base(db)
-        {
-
-        }
+        public NegotiationRepository(DbConnection db) : base(db){}
+        
         public async Task<int> GetPendingNegotiationsCount()
         {
             string query = "SELECT COUNT(*) FROM Negotiations where checkedByAdmin=0";
@@ -33,7 +28,10 @@ namespace WebApp1.Repositories
             {
                 try
                 {
-                    await AddNewNegotiationPhase(phase, transaction);
+                    string sqlInsert = @"INSERT INTO Rejected_negotiations_phases 
+                         (ClientID, ProjectCode, UnitID, NegotiationCondition, SuggestedPrice, ReasonOfReject, CheckedDate) 
+                         VALUES (@ClientID, @ProjectCode, @UnitID, @NegotiationCondition, @SuggestedPrice, @ReasonOfReject, @CheckedDate)";
+                    await _db.ExecuteAsync(sqlInsert,phase, transaction);
                     string status = Convert.ToBoolean(phase.NegotiationCondition) ? "مقبول" : "مرفوض";
 
                     string updateNegotiations = @"
@@ -58,8 +56,22 @@ namespace WebApp1.Repositories
                     return false;
                 }
             }
+        }
+        public async Task<(int count, IEnumerable<NegotiationsDetailsView> negotiations)> GetRejectedNegotiations()
+        {
 
+            string sqld = @"select * from Negotiations_2 where NegotiationCondition=0 AND 
+                          checkedByAdmin=1 AND Reserved=0";
 
+            var negotiations = await _db.QueryAsync<NegotiationsDetailsView>(sqld);
+            return (negotiations.Count(), negotiations);
+        }
+        public async Task<(int count, IEnumerable<NegotiationsDetailsView> negotiations)> GetApprovedNegotiations()
+        {
+            string sqld = @"select * from Negotiations_2 where NegotiationCondition=1 AND 
+                          checkedByAdmin=1 AND Reserved=0";
+            var negotiations = await _db.QueryAsync<NegotiationsDetailsView>(sqld);
+            return (negotiations.Count(), negotiations);
         }
 
         public async Task<(bool Re_Approved, bool Re_Rejected)> UpdateNegotiationReview(Rejected_negotiations_phase phase)
@@ -80,7 +92,10 @@ namespace WebApp1.Repositories
                     var affectedRows = await _db.ExecuteAsync(sqlUpdate, phase, transaction);
                     if (affectedRows == 0)
                     {
-                        await AddNewNegotiationPhase(phase, transaction);
+                        string sqlInsert = @"INSERT INTO Rejected_negotiations_phases 
+                         (ClientID, ProjectCode, UnitID, NegotiationCondition, SuggestedPrice, ReasonOfReject, CheckedDate) 
+                         VALUES (@ClientID, @ProjectCode, @UnitID, @NegotiationCondition, @SuggestedPrice, @ReasonOfReject, @CheckedDate)";
+                        await _db.ExecuteAsync(sqlInsert, phase, transaction);
                     }
                     string status = Convert.ToBoolean(phase.NegotiationCondition) ? "مقبول" : "مرفوض";
                     string sqlUpdateNegotiation = @"update Negotiations set 
@@ -111,21 +126,6 @@ namespace WebApp1.Repositories
 
         }
 
-        public async Task<(int count, IEnumerable<Negotiation> negotiations)> GetRejectedNegotiations()
-        {
-
-            string sqld = @"select * from Negotiations_2 where NegotiationCondition=0 AND 
-                          checkedByAdmin=1 AND Reserved=0";
-
-            var negotiations = await _db.QueryAsync<Negotiation>(sqld);
-            return (negotiations.Count(), negotiations);
-        }
-        public async Task<(int count, IEnumerable<Negotiation> negotiations)> GetApprovedNegotiations()
-        {
-            string sqld = @"select * from Negotiations_2 where NegotiationCondition=1 AND 
-                          checkedByAdmin=1 AND Reserved=0";
-            var negotiations = await _db.QueryAsync<Negotiation>(sqld);
-            return (negotiations.Count(), negotiations);
-        }
+       
     }
 }

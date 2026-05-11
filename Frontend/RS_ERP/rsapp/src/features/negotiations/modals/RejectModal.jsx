@@ -9,6 +9,7 @@ import {
 import { AiTwotoneEdit } from "react-icons/ai";
 import { toast } from 'react-toastify';
 import { 
+    fetchApprovedNegotiations,
     processNegotiationReview, 
     updateNegotiationStatus 
 } from '../../../services/negotiationService';
@@ -36,8 +37,8 @@ const closeRejectModal=()=>{
     dispatch(resetSelectedRequest());
 }
 const confirmRejection=async()=>{
-     const row={...selectedAcceptedNegotiation,CheckedDate:CurrentDate}
-    try{
+     const row={...selectedRequest,...selectedAcceptedNegotiation,CheckedDate:CurrentDate}
+   try{
     if(rejected===0){
     await dispatch(processNegotiationReview(row)).unwrap();
      toast.error("تم رفض الطلب!", {
@@ -51,15 +52,12 @@ const confirmRejection=async()=>{
         theme: "colored",
         position: "top-left",
       });  
+      await dispatch(fetchApprovedNegotiations());
     }
       dispatch(toggleRejectModal(false)); 
     }       
-    catch (error) {
-        console.error("خطأ في العملية:", error);
-        toast.warning("حدث خطأ، يرجى التأكد من البيانات");
-    } 
+    catch (error) { }
 }
-
   return (
              <div>
                 <div className="modal-backdrop">

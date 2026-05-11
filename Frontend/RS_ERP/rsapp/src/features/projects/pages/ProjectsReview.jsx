@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchProjectsList, fetchProjectUnits } from '../../../services/projectService.js';
 
 const ProjectsReview = () => {
-  const projectState = useSelector((state) => state.projects);
+  const {projectsList,} = useSelector((state) => state.projects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,7 +39,6 @@ const ProjectsReview = () => {
     dispatch(updateSelectedProjectCode(index));
     navigate('/units');
   };
-
   return (
     <div className="table-page-wrapper" dir="rtl">
       <div className="table-header-section">
@@ -60,7 +59,7 @@ const ProjectsReview = () => {
             </tr>
           </thead>
           <tbody>
-            {projectState.projectsList.length === 0 ? (
+            {projectsList.length === 0 ? (
               <tr>
                 <td colSpan="6" className="empty-state">
                   <FaImage size={30} />
@@ -68,7 +67,7 @@ const ProjectsReview = () => {
                 </td>
               </tr>
             ) : (
-              projectState.projectsList.map((project, i) => (
+              projectsList.map((project, i) => (
                 <tr key={i} onClick={() => handleRowClick(i)}>
                   <td className="project-info-cell">
                     <div className="project-img-mini">

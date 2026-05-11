@@ -26,7 +26,6 @@ const rejectApprovedRequest=(index)=>{
         }
         fetchData();
     }, [dispatch]);
-console.log("acceptedRequests",acceptedRequests)
 
     return (
         <div className="acc-page-wrapper">

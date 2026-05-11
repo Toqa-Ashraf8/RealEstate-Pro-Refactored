@@ -13,11 +13,9 @@ const initialState={
  pendingCount:"",
  rejectedCount:0,
  approvedCount:0,
-//
   pendingRequests:[],
   acceptedRequests:[],
   rejectedRequests:[],   
-//
 selectedRequest:{
     ClientID:"",
     ClientName:"",
@@ -31,10 +29,8 @@ selectedRequest:{
  isRejectModalOpen:false,
  isConfirmModalOpen:false,
  isReConfirmModalOpen:false,
-//
  selectedAcceptedNegotiation:{},
  selectedRejectedNegotiation:{},
- //
  isSavedSuccessfully:false,
  //if approved=1 -- Approve Negotiation / rejected=1 -- Reject Negotiation
     approved:0,
@@ -102,7 +98,7 @@ const negotiationSlice=createSlice({
          prepareRejectAction:(state,action)=>{
             state.rejected=action.payload;     
         },
-      
+        
     },
    
     extraReducers:(builder)=>{
@@ -121,7 +117,6 @@ const negotiationSlice=createSlice({
                 state.pendingRequests.filter(neg => neg.UnitID !== pendingUnit);
                 if (state.pendingCount > 0) {
                    state.pendingCount -= 1;
-                   
                  }
                  if (state.selectedRequest.NegotiationCondition === 1) {
                    state.approvedCount = (Number(state.approvedCount) || 0) + 1;
@@ -140,17 +135,9 @@ const negotiationSlice=createSlice({
          state.acceptedRequests=action.payload.dt;
         })
         .addCase(updateNegotiationStatus.fulfilled,(state,action)=>{
-            const NegotiaitionIdToRemove = action.meta.arg.NegotiaionID; 
-            if(action.payload.Re_Approved===true){
-             state.rejectedRequests = state.rejectedRequests.filter(neg => neg.NegotiaionID !== NegotiaitionIdToRemove); 
-            }
-            else if(action.payload.Re_Rejected===true){
-             state.acceptedRequests = state.acceptedRequests.filter(neg => neg.NegotiaionID !== NegotiaitionIdToRemove); 
-            }
              if (state.pendingCount > 0) {
                  state.pendingCount -= 1;
             }
-               
              state.selectedRejectedNegotiation = {};
              state.selectedAcceptedNegotiation = {};
         })
@@ -168,6 +155,7 @@ export const{
     prepareApproveAction,
     prepareRejectAction,
     selectRejectedForUpdate,
+    getAccId
 }=negotiationSlice.actions;
 const negotiationReducer=negotiationSlice.reducer;
 export default negotiationReducer;

@@ -32,7 +32,7 @@ useEffect(() => {
     }
     fetchData();
 }, [dispatch]);
-console.log("rejectedRequests",rejectedRequests)
+
     return (
         <div className="clean-page-wrapper">
            {isConfirmModalOpen && <ConfirmModal/>} 
