@@ -17,13 +17,23 @@ import {
 
 const initialState = {
    bookingClient: {
-        NationalID: "", NationalIdImagePath: "", SecondaryPhone: "", Address: "", Job: "",
+        NationalID: "", 
+        NationalIdImagePath: "", 
+        SecondaryPhone: "", 
+        Address: "", 
+        Job: "",
     },
     initialClientData:{},
     InstallmentInformation: { 
-        BookingID: 0, TotalAmount: 0, ReservationAmount: 0, DownPayment: 0, 
-        FirstInstallmentDate: "", PaymentMethod: "-1", CheckImagePath: "",
-        InstallmentYears: "-1", Reserved: 1
+        BookingID: 0, 
+        TotalAmount: 0, 
+        ReservationAmount: 0, 
+        DownPayment: 0, 
+        FirstInstallmentDate: "", 
+        PaymentMethod: "-1", 
+        CheckImagePath: "",
+        InstallmentYears: "-1", 
+        Reserved: 1
     },
     paymentType:{
         PaymentType:"",
@@ -34,20 +44,16 @@ const initialState = {
     nationalIdImage: "",
     checkImage: "",
     installmentCheckImageName:"",
-    //
     isPaymentModalOpen:false,
     isRevertPaymentModalOpen:false,
-    //
     successSaveBookingData:false,
     successSaveInstallmentData:false,
     successUpdate:false,
     isDeletedBooking:false,
     successDelete:false,
-    //   
     reserved:-1,
     selectedInstallmentrow:-1,
     selectedDeleteIndex: -1,
-    //
     BookingDate:new Date().toISOString().split('T')[0],
 }
 
@@ -163,34 +169,21 @@ const bookingSlice = createSlice({
       deleteBookingRow:(state,action)=>{
         state.reservedClients=
         state.reservedClients.filter((client)=>client.BookingID!==action.payload);
-      }
+      },
+      hydrateFromStorage: (state, action) => {
+        state.reserved=1;
+        const data = action.payload;
+        state.initialClientData = data.InitialClientData;
+        state.bookingClient = data.ClientExDetails;
+        state.InstallmentInformation = data.BookingDetails;
+        state.installmentDetails = data.installments;
+    },
+
     },
     extraReducers: (builder) => {
         builder
             .addCase(fillClientData.fulfilled, (state, action) => {
              state.initialClientData = action.payload.dt[0];
-             const clientInformation = action.payload.clientData[0] || {};
-    
-              if(action.payload.isExist === true){
-                state.bookingClient = {
-                NationalID: clientInformation.NationalID || "",
-                NationalIdImagePath: clientInformation.NationalIdImagePath || "",
-                SecondaryPhone: clientInformation.SecondaryPhone || "",
-                Address: clientInformation.Address || "",
-                Job: clientInformation.Job || "",
-             };
-             state.InstallmentInformation={
-                BookingID:clientInformation.BookingID || 0,
-                TotalAmount:clientInformation.NegotiationPrice || 0,
-                ReservationAmount:clientInformation.ReservationAmount || 0 ,
-                DownPayment:clientInformation.DownPayment || 0 ,
-                FirstInstallmentDate:clientInformation.FirstInstallmentDate || "",
-                PaymentMethod:clientInformation.PaymentMethod || "-1" ,
-                CheckImagePath:clientInformation.CheckImagePath || "",
-                InstallmentYears:clientInformation.InstallmentYears || "-1",
-                Reserved:clientInformation.Reserved || "1"
-             }
-            }
             })         
             .addCase(saveNationalIdImage.fulfilled, (state, action) => {
                 state.nationalIdImage = action.payload;
@@ -210,13 +203,14 @@ const bookingSlice = createSlice({
             .addCase(fetchAllReservedClients.fulfilled, (state, action) => {
                 state.reservedClients=action.payload;
             })
-            .addCase(fetchReservedClientById.fulfilled, (state, action) => {
-                state.InstallmentInformation=action.payload.reservationData[0];
-                state.bookingClient=action.payload.clientdt[0];
-                state.initialClientData=action.payload.clientdt[0];
-                state.installmentDetails=action.payload.installmentdt;
-               
-            })  
+          
+             .addCase(fetchReservedClientById.fulfilled, (state, action) => {
+                state.initialClientData=action.payload.InitialClientData;
+                state.bookingClient = action.payload.ClientExDetails;
+                state.InstallmentInformation = action.payload.BookingDetails; 
+                state.installmentDetails = action.payload.installments;
+               localStorage.setItem('activeBookingClient', JSON.stringify(action.payload));
+          })
             .addCase(deleteBookingData.fulfilled, (state, action) => {
                 state.isDeletedBooking=action.payload;
             })
@@ -244,7 +238,8 @@ export const {
     confirmpaidStatus,
     toggleRevertModal,
     confirmRevertPayment,
-    deleteBookingRow
+    deleteBookingRow,
+    hydrateFromStorage
 } = bookingSlice.actions;
 const bookingReducer = bookingSlice.reducer;
 export default bookingReducer;

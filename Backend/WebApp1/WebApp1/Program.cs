@@ -83,6 +83,8 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddScoped<INegotiationRepository, NegotiationRepository>();
 
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
 var app = builder.Build();
 
 //app.UseExceptionHandler();
@@ -93,35 +95,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
+
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "Photos_projects")),
-    RequestPath = "/Photos/Photos_projects"
-});
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "Photos_Units")),
-    RequestPath = "/Photos/Photos_Units"
-});
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "NationalIDCard_Images")),
-    RequestPath = "/Photos/NationalIDCard_Images"
-});
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "Checks_Images")),
-    RequestPath = "/Photos/Checks_Images"
-});
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Photos", "InstallmentChecks_Images")),
-    RequestPath = "/Photos/InstallmentChecks_Images"
+        Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
+    RequestPath = "/Photos"
 });
 
 app.UseCors("AllowOrigin");

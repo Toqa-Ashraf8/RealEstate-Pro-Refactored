@@ -3,7 +3,7 @@ import axios from 'axios';
 import { variables } from "../assets/variables";
 //-------------------------------------------------------------------------------
 export const uploadProjectImage = createAsyncThunk("uploadProjectImage/projects", async ({ data, folder }) => {
-    const resp = await axios.post(variables.PROJECTS_API + "UploadImage?folderName="+folder+"",data)
+    const resp = await axios.post(variables.PROJECTS_API + "UploadImage?folderName="+folder,data)
         .then((res) => res.data);
     return resp;
 })
@@ -13,7 +13,7 @@ export const saveCompleteProject = createAsyncThunk("saveCompleteProject/project
     return resp;
 })
 export const uploadUnitImage = createAsyncThunk("uploadUnitImage/projects", async ({ data, folder }) => {
-    const resp = await axios.post(variables.PROJECTS_API + "UploadImage?folderName="+folder+"",data)
+    const resp = await axios.post(variables.PROJECTS_API + "UploadImage?folderName="+folder,data)
         .then((res) => res.data);
     return resp;
 })

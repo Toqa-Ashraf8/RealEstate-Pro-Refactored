@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Photos\InstallmentChecks_Images\" />
-    <Folder Include="Photos\NationalIDCard_Images\" />
     <Folder Include="Photos\Checks_Images\" />
+    <Folder Include="Photos\NationalIDCard_Images\" />
+    <Folder Include="Photos\InstallmentChecks_Images\" />
     <Folder Include="Photos\Photos_units\" />
     <Folder Include="Photos\Photos_projects\" />
   </ItemGroup>

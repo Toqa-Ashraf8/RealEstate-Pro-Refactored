@@ -27,15 +27,18 @@ const handleChangeImage=async(e)=>{
        const file = e.target.files[0];
        const formData = new FormData();
        const fileName = file.name;
-        formData.append("checkfile", file, fileName);    
-          await  dispatch(saveInstallmentCheck(formData));
+        formData.append("file", file);    
+          await  dispatch(saveInstallmentCheck({
+            data:formData,
+            folder:"InstallmentChecks_Images"
+          }));
           await  dispatch(setPaymentModalValues({[name]:fileName}));         
 }
 
 const confirmReversal=()=>{
   dispatch(confirmpaidStatus());
 }
-console.log("PaymentType",paymentType)
+console.log("URL",variables.INSTALLMENT_CHECKS_IMAGES_URL+installmentCheckImageName)
   return (
    <div className="payment_modal_overlay" dir="rtl">
   <div className="payment_modal_card">
@@ -91,7 +94,7 @@ console.log("PaymentType",paymentType)
           <div className="image_preview_box">
             {(installmentCheckImageName || paymentType?.CheckImage) ? (
               <img 
-                src={`${variables.INSTALLMENT_CHECKS_IMAGES_URL}/${installmentCheckImageName || paymentType?.CheckImage}`}
+                src={variables.INSTALLMENT_CHECKS_IMAGES_URL+installmentCheckImageName || paymentType?.CheckImage}
                 alt="Check Preview" 
               />
             ) : (

@@ -14,7 +14,8 @@ import { useDispatch, useSelector} from 'react-redux';
     resetPaymentModal, 
     toggleRevertModal,  
     setPendingPayment, 
-    togglePaymentModal, 
+    togglePaymentModal,
+    hydrateFromStorage, 
 } from '../../../assets/redux/bookingSlice'; 
 import { useNavigate } from 'react-router-dom';
  import PaymentTypeModal from './PaymentTypeModal'; 
@@ -77,9 +78,9 @@ const saveAllData=async()=>{
            });
            }
          localStorage.removeItem('activeClientData')   
-        await dispatch(confirmReservation(initialClientData));
-       }
-       catch (error) {
+         await dispatch(confirmReservation(initialClientData));
+        }
+        catch (error) {
            toast.error("حدث خطأ في الاتصال الخادم", {
                theme: "colored",
                position: "top-left",
@@ -98,14 +99,13 @@ const handleEdit=(i)=>{
     useEffect(() => {
         const FetchClientData = async () => {
          const savedData = localStorage.getItem('activeBookingClient');
-            if (savedData && reserved===0 && !bookingClient.ClientID) {
+            if (savedData) {
                 const parsedData = JSON.parse(savedData);
-                await  dispatch(fillClientData(parsedData));
-                await dispatch(generateInstallments(InstallmentInformation));
+                dispatch(hydrateFromStorage(parsedData)); 
             }
         }
         FetchClientData();
-    }, [dispatch, InstallmentInformation]);
+    }, [dispatch]); 
 
     return (
         <div className="mini_ins_wrapper"> 
@@ -115,8 +115,8 @@ const handleEdit=(i)=>{
                     <header className="mini_ins_header">
                         <div className="mini_ins_title_section">  
                             <h1>إدارة تحصيل الأقساط</h1>
-                            <p>الوحدة: <mark>{initialClientData.unitName}</mark>
-                             - مشروع <mark>{initialClientData.ProjectName}</mark>
+                            <p>الوحدة: <mark>{initialClientData?.unitName}</mark>
+                             - مشروع <mark>{initialClientData?.ProjectName}</mark>
                             </p>
                         </div>
                         <div className="mini_ins_actions">
@@ -144,13 +144,13 @@ const handleEdit=(i)=>{
                             <User className="card_icon" />
                         <div>
                          <span>العميل</span>
-                         <strong>{initialClientData.ClientName}</strong>
+                         <strong>{initialClientData?.ClientName}</strong>
                         </div></div>
                         <div className="mini_stat_card green">
                             <DollarSign className="card_icon" />
                         <div>
                             <span>الإجمالي</span>
-                        <strong>{initialClientData.NegotiationPrice} ج.م</strong>
+                        <strong>{initialClientData?.NegotiationPrice} ج.م</strong>
                         </div></div>
                         <div className="mini_stat_card highlight">
                             <CalendarDays className="card_icon" />

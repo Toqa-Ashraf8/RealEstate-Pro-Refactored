@@ -108,14 +108,13 @@ namespace WebApp1.Repositories
 
         public async Task<string> UploadImage(IFormFile file, string folderName)
         {
-            try
-            {
+            
                 if (file == null || file.Length == 0)
                 return ("No file uploaded.");
                 string fileName = file.FileName;
-                var physicalPath = Path.Combine(_env.ContentRootPath, folderName, fileName);
+               var physicalPath = Path.Combine(_env.ContentRootPath, "Photos", folderName, fileName);
 
-                var directory = Path.GetDirectoryName(physicalPath);
+               var directory = Path.GetDirectoryName(physicalPath);
                 if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
                 using (var stream = new FileStream(physicalPath, FileMode.Create))
@@ -124,11 +123,6 @@ namespace WebApp1.Repositories
                 }
 
                 return fileName;
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
 
         }
 }   }

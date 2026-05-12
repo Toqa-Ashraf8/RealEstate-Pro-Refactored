@@ -7,13 +7,13 @@ export const fillClientData = createAsyncThunk("fillClientData/booking", async (
         .then((res) => res.data);
     return resp;
 })
-export const saveNationalIdImage = createAsyncThunk("saveNationalIdImage/booking", async (formData) => {
-    const resp = await axios.post(variables.BOOKINGS_API + "NationalIdUploadRequest", formData)
+export const saveNationalIdImage = createAsyncThunk("saveNationalIdImage/booking", async ({data,folder}) => {
+    const resp = await axios.post(variables.BOOKINGS_API + "UploadImages?folderName="+folder, data)
         .then((res) => res.data);
     return resp;
 })
-export const saveChecksImages = createAsyncThunk("saveChecksImages/booking", async (formData_) => {
-    const resp = await axios.post(variables.BOOKINGS_API + "CheckUploadRequest", formData_)
+export const saveChecksImages = createAsyncThunk("saveChecksImages/booking", async ({data,folder}) => {
+    const resp = await axios.post(variables.BOOKINGS_API + "UploadImages?folderName="+folder, data)
         .then((res) => res.data);
     return resp;
 })
@@ -23,8 +23,8 @@ export const generateInstallments = createAsyncThunk("generateInstallments/booki
         .then((res) => res.data);
     return resp;
 })
-export const saveInstallmentCheck = createAsyncThunk("saveInstallmentCheck/booking", async (formData) => {
-    const resp = await axios.post(variables.BOOKINGS_API + "InstallmentCheckUploadRequest", formData)
+export const saveInstallmentCheck = createAsyncThunk("saveInstallmentCheck/booking", async ({data,folder}) => {
+    const resp = await axios.post(variables.BOOKINGS_API + "UploadImages?folderName="+folder, data)
         .then((res) => res.data);
     return resp;
 })

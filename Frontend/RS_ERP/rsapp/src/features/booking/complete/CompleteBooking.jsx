@@ -25,6 +25,7 @@ import { FiPrinter } from "react-icons/fi";
 import { 
     calculateNewDownPayment, 
     caluclateDownPayment,  
+    hydrateFromStorage,  
     resetBookingForm,  
     setBookingClientData, 
     setInstallmentData, 
@@ -80,17 +81,23 @@ const handleChangeinstallment=(e)=>{
             const file = e.target.files[0];
             const formData = new FormData();
             const fileName = file.name;
-            formData.append("formFile", file, fileName);    
-           await  dispatch(saveNationalIdImage(formData));
+            formData.append("file", file);    
+           await  dispatch(saveNationalIdImage({
+                data:formData,
+                folder:"NationalIDCard_Images"
+           }));
            await  dispatch(setBookingClientData({[name]:fileName}));         
         }
         if(e.target.name==='CheckImagePath'){
-                const file2 = e.target.files[0];
+                const file = e.target.files[0];
                 const formData_ = new FormData();
-                const fileName_ = file2.name;
-                formData_.append("file_c", file2, fileName_);    
-              await dispatch(saveChecksImages(formData_));
-              await dispatch(setInstallmentData({[name]:fileName_})); 
+                const fileName = file.name;
+                formData_.append("file", file);    
+               await dispatch(saveChecksImages({
+                data:formData_,
+                folder:"Checks_Images"
+              }));
+              await dispatch(setInstallmentData({[name]:fileName})); 
         }
     
 };
@@ -129,9 +136,17 @@ const SavedData=async()=>{
 }
 
 const calcutlateDownpayment=()=>{
-    const totalamount=initialClientData.NegotiationPrice;
     if(InstallmentInformation.BookingID===0 ){
-       dispatch(caluclateDownPayment(totalamount));
+        if(InstallmentInformation.ReservationAmount > initialClientData.NegotiationPrice){
+            toast.error("مبلغ الحجز لا يمكن أن يكون أكبر من سعر الوحدة!", {
+                theme: "colored",
+                position:'top-left'
+            });
+            return;
+        }
+        else{
+           dispatch(caluclateDownPayment(initialClientData.NegotiationPrice));
+        }
     }
     else{
         const newtotalPrice=initialClientData.NegotiationPrice;
@@ -146,26 +161,23 @@ const createInstallments=()=>{
     if(InstallmentInformation.ReservationAmount !=""){
          dispatch(generateInstallments(InstallmentInformation))
          navigate('/installments_schedule');
+
     }
     else{
         toast.error(" أكمل إدخال البيانات لإنشاء جدول الأقساط!", {
             theme: "colored",
             position: "top-left",
         });
-    }
+    } 
 }
-const getinstallmentsData=(id)=>{
-    if(reserved===1){
-         dispatch(fetchReservedClientById(id));
-         navigate('/installments_schedule');
-    }
+const getinstallmentsData=()=>{
+     navigate('/installments_schedule');
 }
   useEffect(() => {
-  if (focusRef.current) focusRef.current.focus();
    const savedData = localStorage.getItem('activeBookingClient');
      if (savedData) {
         const parsedData = JSON.parse(savedData);
-        dispatch(fillClientData(parsedData));
+         dispatch(hydrateFromStorage(parsedData));
     }
 }, [dispatch]);
 
@@ -177,39 +189,37 @@ const getinstallmentsData=(id)=>{
                     <h2 className="final_main_title">استكمال بيانات الحجز والأقساط</h2>
                 </div>
               
-
-                <div className="final_content_box animate__animated animate__fadeIn">
-                     
-                    <form className="final_form_body" >   
-                         <div className="final_floating_actions row">
-                         <div 
-                        className="final_circle_btn"
-                        title="تنظيف"> <AiOutlineClear size={28} color="#14213d" onClick={()=>resetForm()} /></div>       
-                        <div className="final_circle_btn" title="طباعة"><LuPrinter  size={24} color="#1086b9" onClick={()=>window.print()} /></div>
-                        <div className="final_circle_btn" title="حفظ"><RiSave3Fill size={24} color="#10b981" onClick={()=>SavedData()} /></div>
-                        {reserved===1 && 
-                        <div className="final_circle_btn" title="جدول الاقساط"><NotepadText  size={24} color="#42025e" onClick={()=>getinstallmentsData(InstallmentInformation?.BookingID)}/></div>
-                        }
-                        </div>                   
-                          
+                        <div className="final_floating_actions row">
+                            <div 
+                            className="final_circle_btn"
+                            title="تنظيف"> <AiOutlineClear size={28} color="#14213d" onClick={()=>resetForm()} /></div>       
+                            <div className="final_circle_btn" title="طباعة"><LuPrinter  size={24} color="#1086b9" onClick={()=>window.print()} /></div>
+                            <div className="final_circle_btn" title="حفظ"><RiSave3Fill size={24} color="#10b981" onClick={()=>SavedData()} /></div>
+                            {reserved===1 && 
+                            <div className="final_circle_btn" title="جدول الاقساط"><NotepadText  size={24} color="#42025e" onClick={()=>getinstallmentsData()}/></div>
+                            }
+                        </div> 
+                    <div className="final_content_box animate__animated animate__fadeIn">
+                   
+                    <div className="final_form_body" >   
                                 <div className="row mb-4">
                                     <div className="col-md-4">
                                         <div className="final_field_group">
-                                             <input type="text" value={initialClientData.ClientID } hidden className="final_input_modern final_disabled" />
+                                             <input type="text" value={initialClientData?.ClientID } hidden className="final_input_modern final_disabled" />
                                             <label className="final_label"><User size={18} /> إسم العميل</label>
-                                            <input type="text" value={initialClientData.ClientName } readOnly className="final_input_modern final_disabled" />
+                                            <input type="text" value={initialClientData?.ClientName } readOnly className="final_input_modern final_disabled" />
                                         </div>
                                     </div>
                                     <div className="col-md-4">
                                         <div className="final_field_group">
                                             <label className="final_label"><Building2 size={18} /> المشروع</label>
-                                            <input type="text" value={initialClientData.ProjectName} readOnly className="final_input_modern final_disabled" />
+                                            <input type="text" value={initialClientData?.ProjectName} readOnly className="final_input_modern final_disabled" />
                                         </div>
                                     </div>
                                     <div className="col-md-4">
                                         <div className="final_field_group">
                                             <label className="final_label"><Activity size={18} /> الوحدة</label>
-                                            <input type="text" value={initialClientData.unitName} readOnly className="final_input_modern final_disabled" />
+                                            <input type="text" value={initialClientData?.unitName} readOnly className="final_input_modern final_disabled" />
                                         </div>
                                     </div>
                                 </div>
@@ -307,7 +317,7 @@ const getinstallmentsData=(id)=>{
                             if (imgName && imgName !== "null") {
                             return (
                                 <img 
-                                src={`${variables.NATIONAL_ID_IMAGES_URL}/${imgName}`} 
+                                src={variables.NATIONAL_ID_IMAGES_URL+imgName} 
                                 className="final_img_fluid" 
                                 alt="" 
                                 />
@@ -423,16 +433,14 @@ const getinstallmentsData=(id)=>{
                                     const imgName = checkImage || InstallmentInformation.CheckImagePath;
 
                                     if (imgName && imgName !== "null") {
-                                    // الحالة الأولى: لو فيه صورة
                                     return (
                                         <img 
-                                        src={`${variables.CHECKS_IMAGES_URL}/${imgName}`} 
+                                        src={variables.CHECKS_IMAGES_URL+imgName} 
                                         className="final_img_fluid" 
                                         alt="" 
                                         />
                                     );
                                     } else {
-                                    // الحالة الثانية: لو مفيش صورة (الرسالة البديلة)
                                     return (
                                     <div className="final_empty_msg" >
                                         <FileText size={40} className="final_icon_fade" />
@@ -446,7 +454,7 @@ const getinstallmentsData=(id)=>{
                         </div>
 
                        
-                    </form>
+                    </div>
                 </div>
 
               

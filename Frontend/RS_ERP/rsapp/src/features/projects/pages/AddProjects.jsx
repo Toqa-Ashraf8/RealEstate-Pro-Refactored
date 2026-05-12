@@ -246,7 +246,7 @@ const AddProjects = () => {
                   if (imgName && imgName !== "null") {
                    return (
                     <img 
-                     src={`${variables.PROJECT_IMAGES_URL}${imgName}`} 
+                     src={variables.PROJECT_IMAGES_URL + imgName} 
                      className="preview-img"
                      alt="" 
                     />

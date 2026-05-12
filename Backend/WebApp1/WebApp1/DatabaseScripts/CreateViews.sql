@@ -1,5 +1,5 @@
 ﻿
--- Negotiations_2 VIEW 
+-- Negotiations_2 VIEW TO GET ALL NEGOTIATION REQUESTS (APPROVED _ REJECTED)
 CREATE VIEW Negotiations_2  AS
 SELECT n.*,  
     r.NegotiationCondition, 
@@ -12,9 +12,35 @@ INNER JOIN Rejected_negotiations_phases r
     AND n.ProjectCode = r.ProjectCode 
     AND n.UnitID = r.UnitID
 
+GO
 
---SELECT dbo.Negotiations.*, dbo.Rejected_negotiations_phases.NegotiationCondition, dbo.Rejected_negotiations_phases.SuggestedPrice, dbo.Rejected_negotiations_phases.ReasonOfReject, 
---                  dbo.Rejected_negotiations_phases.CheckedDate
---FROM     dbo.Negotiations INNER JOIN
---                  dbo.Rejected_negotiations_phases ON dbo.Negotiations.ClientID = dbo.Rejected_negotiations_phases.ClientID AND dbo.Negotiations.ProjectCode = dbo.Rejected_negotiations_phases.ProjectCode AND 
---                  dbo.Negotiations.UnitID = dbo.Rejected_negotiations_phases.UnitID
+--vw_Booked_Clients VIEW TO REVIEW BOOKED CLIENTS 
+
+
+CREATE VIEW vw_Booked_Clients AS 
+SELECT n.*,
+u.BookingID,
+u.BookingDate
+FROM Negotiations n 
+INNER JOIN UnitBooking u 
+ON n.UnitID=u.UnitID 
+AND n.ProjectCode=u.ProjectCode
+
+
+GO
+--vw_ClientExtraDetails
+
+CREATE VIEW vw_ClientExtraDetails AS
+SELECT c.*,
+u.BookingID,
+u.UnitID,
+u.ProjectCode
+FROM ClientExtraDetails c 
+INNER JOIN UnitBooking u 
+ON c.ClientID=u.ClientID
+
+
+
+
+
+

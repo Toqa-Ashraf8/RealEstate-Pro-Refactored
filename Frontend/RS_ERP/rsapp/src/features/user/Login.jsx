@@ -46,7 +46,7 @@ useEffect(()=>{
         transition={{ duration: 0.5 }}
         className="login-wrapper"
       >
-        <div className="login-main-card" onKeyDown={handleKeyDown}>
+        <div className="login-main-card">
           <div className="login-header">
             <h3 className="login-title">تسجيل الدخول</h3>
           </div>
@@ -77,6 +77,7 @@ useEffect(()=>{
                 name='Password'
                 value={user.Password}
                 onChange={handleChangeValues} 
+                onKeyDown={handleKeyDown}
               />
             </div>
             <div style={{display:'flex', justifyContent:'center'}}>
