@@ -12,5 +12,7 @@ namespace WebApp1.Core.Interfaces
         Task<bool> ConfirmReservation(NegotiationViewModel neg);
         Task<IEnumerable<BookingClient>> GetAllReservedClients();
         Task<ReservedClientDto> GetReservedClientById(int bookingId);
+        Task<bool> DeleteBookingData(UnitBooking client);
+        Task<IEnumerable<dynamic>> SearchGeneric(string tableName, Search term);
     }
 }

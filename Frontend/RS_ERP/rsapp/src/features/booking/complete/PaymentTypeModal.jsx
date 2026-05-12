@@ -38,7 +38,7 @@ const handleChangeImage=async(e)=>{
 const confirmReversal=()=>{
   dispatch(confirmpaidStatus());
 }
-console.log("URL",variables.INSTALLMENT_CHECKS_IMAGES_URL+installmentCheckImageName)
+
   return (
    <div className="payment_modal_overlay" dir="rtl">
   <div className="payment_modal_card">

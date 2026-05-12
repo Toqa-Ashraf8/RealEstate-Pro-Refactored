@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -106,133 +107,29 @@ namespace WebApp1.Controllers
             return Ok(dto);
         }
 
-        //    [Route("DeleteBookingData")]
-        //    [HttpPost]
-        //    public JsonResult DeleteBookingData([FromBody] UnitBooking client)
-        //    {
-        //        bool isDeleted = false;
-        //        try
-        //        {
-        //            string deleteInstallment = "delete Installments where BookingID=@BookingID";
-        //            if (conn.State == ConnectionState.Closed) conn.Open();
-        //            using (SqlCommand cmd = new SqlCommand(deleteInstallment, conn))
-        //            {
-        //                cmd.Parameters.Clear();
-        //                cmd.Parameters.AddWithValue("@BookingID", client.BookingID);
-        //                int rows = cmd.ExecuteNonQuery();
-        //                isDeleted = true;
+        [Route("DeleteBookingData")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteBookingData([FromBody] UnitBooking client)
+        {
+            var result=await _repo.DeleteBookingData(client);
+            return Ok(result);
+        }
 
-        //            }
-        //            if (isDeleted)
-        //            {
-        //                try
-        //                {
-        //                    string deleteClient = "delete UnitBooking where BookingID=@BookingID";
-        //                    using (SqlCommand cmd = new SqlCommand(deleteClient, conn))
-        //                    {
-        //                        cmd.Parameters.Clear();
-        //                        cmd.Parameters.AddWithValue("@BookingID", client.BookingID);
-        //                        cmd.ExecuteNonQuery();
-        //                        isDeleted = true;
-        //                    }
-        //                    string sqlp = "Update Units set ReservedStatus=0 where UnitID=@UnitID";
-        //                    using (SqlCommand cmd = new SqlCommand(sqlp, conn))
-        //                    {
-        //                        if (conn.State == ConnectionState.Closed) conn.Open();
-        //                        cmd.Parameters.Clear();
-        //                        cmd.Parameters.AddWithValue("@UnitID", client.UnitID);
-        //                        cmd.ExecuteNonQuery();
+        [Route("SearchBookings")]
+        [HttpPost]
+        public async Task<IActionResult> SearchBookings([FromBody] Search term)
+        {
+            var results = await _repo.SearchGeneric("vw_Booked_Clients", term);
+            return Ok(results);
+        }
 
-        //                    }
-
-        //                }
-        //                catch (Exception)
-        //                {
-
-        //                    return new JsonResult(new { message = "حدث خطأ أثناء تغيير الحالة " });
-        //                }
-
-        //            }
-
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            return new JsonResult(new { message = "حدث خطأ أثناء مسح الحجز" });
-        //        }
-        //        finally
-        //        {
-        //            if (conn.State == ConnectionState.Open) conn.Close();
-        //        }
-
-        //        return new JsonResult(isDeleted);
-        //    }
-
-        //    [Route("SearchBookings")]
-        //    [HttpPost]
-        //    public JsonResult SearchBookings([FromBody]Search term)
-        //    {
-        //        DataTable dt = new DataTable();
-        //        List<string> conditions = new List<string>();
-        //        foreach (var field in term.Fields)
-        //        {
-        //            conditions.Add($"{field} LIKE @searchterm");
-        //        }
-        //        string whereClause = string.Join(" OR ", conditions);
-        //        string search = @"select * from reserved_clients_details where " + whereClause;
-        //        using (SqlCommand cmd = new SqlCommand(search, conn))
-        //        {
-        //            if (conn.State == ConnectionState.Closed) conn.Open();
-        //            cmd.Parameters.Clear();
-        //            cmd.Parameters.AddWithValue("@searchterm", "%" + term.Term + "%");
-        //            SqlDataAdapter da = new SqlDataAdapter(cmd);
-        //            da.Fill(dt);
-        //            if (conn.State == ConnectionState.Open) conn.Close();
-
-        //        } 
-        //        if (dt.Rows.Count > 0)
-        //        {
-
-        //           return new JsonResult(dt);
-        //        }
-        //        else
-        //        {
-        //            return new JsonResult(new DataTable());
-        //        }
-        //    }
-
-        //    [Route("SearchClients")]
-        //    [HttpPost]
-        //    public JsonResult SearchClients([FromBody] Search term)
-        //    {
-        //        DataTable dt = new DataTable();
-        //        List<string> conditions = new List<string>();
-        //        foreach (var field in term.Fields)
-        //        {
-        //            conditions.Add($"{field} LIKE @searchterm");
-        //        }
-        //        string whereClause = string.Join(" OR ", conditions);
-        //        string search = @"select * from Clients where " + whereClause;
-        //        using (SqlCommand cmd = new SqlCommand(search, conn))
-        //        {
-        //            if (conn.State == ConnectionState.Closed) conn.Open();
-        //            cmd.Parameters.Clear();
-        //            cmd.Parameters.AddWithValue("@searchterm", "%" + term.Term + "%");
-        //            SqlDataAdapter da = new SqlDataAdapter(cmd);
-        //            da.Fill(dt);
-        //            if (conn.State == ConnectionState.Open) conn.Close();
-
-        //        }
-        //        if (dt.Rows.Count > 0)
-        //        {
-
-        //            return new JsonResult(dt);
-        //        }
-        //        else
-        //        {
-        //            return new JsonResult(new DataTable());
-        //        }
-        //    }
+        [Route("SearchClients")]
+        [HttpPost]
+        public async Task<IActionResult> SearchClients([FromBody] Search term)
+        {
+            var results = await _repo.SearchGeneric("Clients", term);
+            return Ok(results);
+        }
 
     }
 }

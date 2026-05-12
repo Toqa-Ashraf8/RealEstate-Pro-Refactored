@@ -60,20 +60,31 @@ const CompleteBooking = () => {
         BookingDate,
     }=useSelector((state)=>state.booking);
   
-const handleChange=(e)=>{
-    const {name,value}=e.target;
-    dispatch(setBookingClientData({[name]:value}));
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(setBookingClientData({ [name]: value }));
+    const savedData = JSON.parse(localStorage.getItem('activeBookingClient') || '{}');
+    const updatedData = {
+        ...savedData,
+        bookingClient: { 
+            ...savedData.bookingClient, 
+            [name]: value 
+        }
+    };
+    localStorage.setItem('activeBookingClient', JSON.stringify(updatedData));
 }
+
+
 const resetForm=()=>{
     dispatch(resetBookingForm());
     focusRef.current.focus();
 }
 const handleChangeinstallment=(e)=>{
-    const {name,value}=e.target;
+    const { name, value } = e.target;
     const totalamount=initialClientData.NegotiationPrice;
     dispatch(setInstallmentData({[name]:value}));
-
 }
+
  const handleFileChange =async (e) => {
        const { name } = e.target;
         if (!e.target.files || e.target.files.length === 0) return; 
@@ -121,18 +132,13 @@ const SavedData=async()=>{
            position: "top-left",
         });
          }
-    else if(result.updatedBooking){
+      else if(result.updatedBooking){
         toast.success("تم تحديث البيانات بنجاح!", {
         theme: "colored",
         position: "top-left",
         });
         }
-    } catch (error) {
-         toast.error("حدث خطأ في الاتصال بالخادم!", {
-            theme: "colored",
-            position: "top-left",
-        });
-    }    
+    } catch (error) {} 
 }
 
 const calcutlateDownpayment=()=>{
@@ -156,30 +162,31 @@ const calcutlateDownpayment=()=>{
         }))
     }
 }
-const createInstallments=()=>{
+
+ const createInstallments=()=>{
     dispatch(setReservationStatus(0))
     if(InstallmentInformation.ReservationAmount !=""){
          dispatch(generateInstallments(InstallmentInformation))
          navigate('/installments_schedule');
 
-    }
-    else{
+    } 
+     else{
         toast.error(" أكمل إدخال البيانات لإنشاء جدول الأقساط!", {
             theme: "colored",
             position: "top-left",
         });
-    } 
-}
+    }  
+} 
+
 const getinstallmentsData=()=>{
      navigate('/installments_schedule');
 }
-  useEffect(() => {
-   const savedData = localStorage.getItem('activeBookingClient');
-     if (savedData) {
+ useEffect(() => {
+    const savedData = localStorage.getItem('activeBookingClient');
+    if (savedData && (!bookingClient || Object.keys(bookingClient).length === 0)) {
         const parsedData = JSON.parse(savedData);
-         dispatch(hydrateFromStorage(parsedData));
-    }
-}, [dispatch]);
+        dispatch(hydrateFromStorage(parsedData));}
+}, []); 
 
     return (
         <div className="final_page_wrapper">

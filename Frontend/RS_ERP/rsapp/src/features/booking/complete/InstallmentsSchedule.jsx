@@ -50,7 +50,7 @@ const payInstallment=(i)=>{
 }
 const saveAllData=async()=>{
    const data = {
-        ClientExtraDetails: { ...initialClientData, ...bookingClient }, 
+        ClientExtraDetails: {  ...bookingClient,...initialClientData}, 
         UnitBooking: {
             ...initialClientData, 
             ...InstallmentInformation, 
@@ -63,7 +63,8 @@ const saveAllData=async()=>{
             }))
         }
 }
-       try {
+
+        try {
            const result=await dispatch(bookingDetailRequest(data)).unwrap();
            if(result.savedBooking){
              toast.success("تم الحجز بنجاح!", {
@@ -76,8 +77,7 @@ const saveAllData=async()=>{
                theme: "colored",
                position: "top-left",
            });
-           }
-         localStorage.removeItem('activeClientData')   
+           }  
          await dispatch(confirmReservation(initialClientData));
         }
         catch (error) {
@@ -96,16 +96,6 @@ const handleEdit=(i)=>{
      dispatch(togglePaymentModal(true));
 }
 
-    useEffect(() => {
-        const FetchClientData = async () => {
-         const savedData = localStorage.getItem('activeBookingClient');
-            if (savedData) {
-                const parsedData = JSON.parse(savedData);
-                dispatch(hydrateFromStorage(parsedData)); 
-            }
-        }
-        FetchClientData();
-    }, [dispatch]); 
 
     return (
         <div className="mini_ins_wrapper"> 

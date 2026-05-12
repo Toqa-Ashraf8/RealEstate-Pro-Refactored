@@ -16,7 +16,7 @@ import {
 
 
 const initialState = {
-   bookingClient: {
+   bookingClient: { 
         NationalID: "", 
         NationalIdImagePath: "", 
         SecondaryPhone: "", 
@@ -69,6 +69,7 @@ const bookingSlice = createSlice({
             state.InstallmentInformation = initialState.InstallmentInformation;
             state.checkImage = "",
             state.nationalIdImage = "";
+            localStorage.removeItem('activeBookingClient');
            
         },
         //حساب قيمة المقدم قبل الحجز
@@ -116,7 +117,7 @@ const bookingSlice = createSlice({
             };
         },
         setInitialClientData:(state,action)=>{
-            state.initialClientData=action.payload;    
+            state.initialClientData=action.payload;  
         },
         toggleRevertPymentModal:(state,action)=>{
             state.isRevertPaymentModalOpen=action.payload;
@@ -171,12 +172,14 @@ const bookingSlice = createSlice({
         state.reservedClients.filter((client)=>client.BookingID!==action.payload);
       },
       hydrateFromStorage: (state, action) => {
-        state.reserved=1;
-        const data = action.payload;
-        state.initialClientData = data.InitialClientData;
-        state.bookingClient = data.ClientExDetails;
-        state.InstallmentInformation = data.BookingDetails;
-        state.installmentDetails = data.installments;
+     const data = action.payload;
+    if (data) {
+        state.bookingClient = data.bookingClient || state.bookingClient;
+        state.initialClientData = data.initialClientData || data.InitialClientData || state.initialClientData;
+        state.InstallmentInformation = data.InstallmentInformation || data.BookingDetails || state.InstallmentInformation;
+        state.installmentDetails = data.installmentDetails || data.installments || [];
+        state.reserved = 1;
+    }
     },
 
     },

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.Common;
@@ -71,12 +72,12 @@ namespace WebApp1.Repositories
 
             for (int i = 1; i <= totalMonths; i++)
             {
-          
+
                 decimal currentAmount = roundedMonthlyPrice;
 
                 if (i == totalMonths)
                 {
-                   
+
                     currentAmount = remainingAmount - (roundedMonthlyPrice * (totalMonths - 1));
                 }
 
@@ -191,7 +192,7 @@ namespace WebApp1.Repositories
             var sql = @"SELECT * FROM vw_Booked_Clients WHERE BookingID = @id;
                         SELECT * FROM vw_ClientExtraDetails WHERE BookingID = @id;
                         SELECT * FROM UnitBooking WHERE BookingID = @id;      
-                        SELECT * FROM Installments WHERE BookingID = @id;"; 
+                        SELECT * FROM Installments WHERE BookingID = @id;";
 
             using var multi = await _db.QueryMultipleAsync(sql, new { id = bookingId });
             var dto = new ReservedClientDto();
@@ -204,6 +205,40 @@ namespace WebApp1.Repositories
             return dto;
 
         }
+
+        public async Task<bool> DeleteBookingData(UnitBooking client)
+        {
+           
+            await _db.OpenAsync();
+            using var transaction =  _db.BeginTransaction();
+            try
+            {
+                var parm = new { BookingID = client.BookingID };
+                await _db.ExecuteAsync("delete Installments where BookingID=@BookingID", parm, transaction);
+                await _db.ExecuteAsync("delete UnitBooking where BookingID=@BookingID", parm, transaction);
+                await _db.ExecuteAsync("Update Units set ReservedStatus=0 where UnitID=@UnitID", new { UnitID = client.UnitID }, transaction);
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                return false;
+            }
+           
+        }
+
+        public async Task<IEnumerable<dynamic>> SearchGeneric(string tableName, Search term)
+        {
+        
+            var conditions = term.Fields.Select(field => $"{field} LIKE @searchterm");
+            string whereClause = string.Join(" OR ", conditions);
+          
+            string sql = $"SELECT * FROM {tableName} WHERE {whereClause}";
+
+            return await _db.QueryAsync<dynamic>(sql, new { searchterm = $"%{term.Term}%" });
+        }
+
 
 
     }
