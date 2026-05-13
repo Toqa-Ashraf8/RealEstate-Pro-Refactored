@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using WebApp1.EF;
 using System.Globalization;
+using WebApp1.Core.Interfaces;
 
 namespace WebApp1.Controllers
 {
@@ -13,165 +14,43 @@ namespace WebApp1.Controllers
     [ApiController]
     public class DashboardController : ControllerBase
     {
-        private readonly DataContext _context;
-        SqlConnection conn;
-        public DashboardController(DataContext context)
+        private readonly IDashboardRepository _repo;
+        public DashboardController(IDashboardRepository repo)
         {
-            _context = context;
-            conn=new SqlConnection(_context.Database.GetConnectionString());
+            _repo=repo;
         }
         [Route("GetProjectsUnitsStats")]
         [HttpGet]
-        public JsonResult GetProjectsUnitsStats()
-        {
-
-            DataTable dt = new DataTable();
-            string sql= @"SELECT p.ProjectName, COUNT(u.UnitID) as TotalUnitsCount
-                         FROM Projects p
-                         LEFT JOIN Units u ON p.ProjectCode = u.ProjectCode
-                         GROUP BY p.ProjectName";
-            if (conn.State == ConnectionState.Closed) conn.Open();
-            SqlDataAdapter da = new SqlDataAdapter(sql, conn);
-            da.Fill(dt);
-            if (conn.State == ConnectionState.Open) conn.Close();
-            return new JsonResult(dt);
-
-        }
+        public async Task<IActionResult> GetProjectsUnitsStats() => Ok(await _repo.GetProjectsUnitsStats());
 
         [Route("GetDailyStats")]
         [HttpGet]
-        public JsonResult GetDailyStats()
-        {
-          
-            DataTable dt = new DataTable();
-            string sqls = @"SELECT 
-                            MONTH(BookingDate) AS MonthNumber, 
-                            COUNT(*) AS BookingCount
-                            FROM reserved_clients_details
-                            WHERE YEAR(BookingDate) = YEAR(GETDATE())
-                            GROUP BY MONTH(BookingDate)";
-
-     
-            if (conn.State == ConnectionState.Closed) conn.Open();
-            SqlDataAdapter da = new SqlDataAdapter(sqls, conn);
-            da.Fill(dt);
-            if (conn.State == ConnectionState.Open) conn.Close();
-            var finalResult = Enumerable.Range(1, 12).Select(i => {
-                var row = dt.AsEnumerable().FirstOrDefault(r => Convert.ToInt32(r["MonthNumber"]) == i);
-
-                return new
-                {
-                    MonthName = CultureInfo.GetCultureInfo("ar-EG").DateTimeFormat.GetMonthName(i),
-                    
-                    BookingCount = row != null ? Convert.ToInt32(row["BookingCount"]) : 0,
-                    MonthNumber = i
-                };
-            }).ToList();
-            return new JsonResult(finalResult);
-        
-         }
+        public async Task<IActionResult> GetDailyStats() => Ok(await _repo.GetMonthlyBookingStats());
 
         [Route("GetProjectsCount")]
         [HttpGet]
-        public JsonResult GetProjectsCount()
-        {
-            DataTable dt = new DataTable();
-            int projectCount;
-            string sqlg = "select * from Projects";
-            SqlDataAdapter da = new SqlDataAdapter(sqlg, conn);
-            da.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                projectCount = dt.Rows.Count;
-            }
-            else
-            {
-                projectCount = 0;
-            }
-            return new JsonResult(projectCount);
-           
-        }
+        public async Task<IActionResult> GetProjectsCount() =>
+        Ok(await _repo.GetCount("SELECT COUNT(*) FROM Projects"));
 
         [Route("GetClientsCount")]
         [HttpGet]
-        public JsonResult GetClientsCount()
-        {
-            DataTable dt = new DataTable();
-            int count;
-            string sqlg = "select * from Clients";
-            SqlDataAdapter da = new SqlDataAdapter(sqlg, conn);
-            da.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                count = dt.Rows.Count;
-            }
-            else
-            {
-                count = 0;
-            }
-            return new JsonResult(count);
-
-        }
+        public async Task<IActionResult> GetClientsCount() =>
+        Ok(await _repo.GetCount("SELECT COUNT(*) FROM Clients"));
 
         [Route("GetNegotiationsCount")]
         [HttpGet]
-        public JsonResult GetNegotiationsCount()
-        {
-            DataTable dt = new DataTable();
-            int negotiationCount;
-            string sqlg = "select * from Negotiations where checkedByAdmin=0";
-            SqlDataAdapter da = new SqlDataAdapter(sqlg, conn);
-            da.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                negotiationCount = dt.Rows.Count;
-            }
-            else
-            {
-                negotiationCount = 0;
-            }
-            return new JsonResult(negotiationCount);
-
-        }
+        public async Task<IActionResult> GetNegotiationsCount() =>
+        Ok(await _repo.GetCount("SELECT COUNT(*) FROM Negotiations WHERE checkedByAdmin=0"));
 
         [Route("GetReservedUnits")]
         [HttpGet]
-        public JsonResult GetReservedUnits()
-        {
-            DataTable dt = new DataTable();
-            int unitsCount;
-            string sqlg = "select * from Units where ReservedStatus=1";
-            SqlDataAdapter da = new SqlDataAdapter(sqlg, conn);
-            da.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                unitsCount = dt.Rows.Count;
-            }
-            else
-            {
-                unitsCount = 0;
-            }
-            return new JsonResult(unitsCount);
-        }
+        public async Task<IActionResult> GetReservedUnits() =>
+        Ok(await _repo.GetCount("SELECT COUNT(*) FROM Units WHERE ReservedStatus=1"));
 
         [Route("SetAvailableUnits")]
         [HttpGet]
-        public JsonResult SetAvailableUnits()
-        {
-            DataTable dt = new DataTable();
-            int availableUnits;
-            string sqlg = "select * from Units where ReservedStatus=0";
-            SqlDataAdapter da = new SqlDataAdapter(sqlg, conn);
-            da.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-               availableUnits = dt.Rows.Count;
-            }
-            else
-            {
-                availableUnits = 0;
-            }
-            return new JsonResult(availableUnits);
-        }
+        public async Task<IActionResult> SetAvailableUnits() =>
+        Ok(await _repo.GetCount("SELECT COUNT(*) FROM Units WHERE ReservedStatus=0"));
+    
     }
 }
