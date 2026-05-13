@@ -27,7 +27,7 @@ namespace WebApp1.Repositories
         public async Task<IEnumerable<dynamic>> GetMonthlyBookingStats()
         {
             string sql = @"SELECT MONTH(BookingDate) AS MonthNumber, COUNT(*) AS BookingCount
-                       FROM reserved_clients_details
+                       FROM vw_Booked_Clients
                        WHERE YEAR(BookingDate) = YEAR(GETDATE())
                        GROUP BY MONTH(BookingDate)";
 

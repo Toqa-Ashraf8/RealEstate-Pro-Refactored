@@ -212,7 +212,7 @@ const bookingSlice = createSlice({
                 state.bookingClient = action.payload.ClientExDetails;
                 state.InstallmentInformation = action.payload.BookingDetails; 
                 state.installmentDetails = action.payload.installments;
-               localStorage.setItem('activeBookingClient', JSON.stringify(action.payload));
+                localStorage.setItem('activeBookingClient', JSON.stringify(action.payload));
           })
             .addCase(deleteBookingData.fulfilled, (state, action) => {
                 state.isDeletedBooking=action.payload;

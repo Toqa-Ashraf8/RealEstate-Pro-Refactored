@@ -36,10 +36,7 @@ const {
   globalMessage 
 } = useSelector((state) => state.ui);
 const componentRef = useRef();
-const {
-  bookingClient,
-  installmentDetails
-}=useSelector((state)=>state.booking);
+
 useEffect(() => {
     if (globalError) {
       toast.error(globalMessage || "حدث خطأ في السيرفر",);
@@ -166,8 +163,6 @@ useEffect(() => {
                  <ProtectedRoute>
                      <BookingsReport 
                     ref={componentRef} 
-                    client={bookingClient} 
-                    installments={installmentDetails}
                   /> 
                   </ProtectedRoute>
                 }

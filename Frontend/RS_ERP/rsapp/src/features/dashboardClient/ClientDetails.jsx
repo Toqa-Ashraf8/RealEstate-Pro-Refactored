@@ -19,7 +19,7 @@ import { useSelector } from 'react-redux';
 import { variables } from '../../assets/variables';
 
 const ClientDetails = () => {
-    const { bookingData, bookedUnitsData } = useSelector((state) => state.clientsProfile);
+    const { clientData, bookedUnitsData } = useSelector((state) => state.clientsProfile);
     const navigate = useNavigate();
     const [openUnitIndex, setOpenUnitIndex] = useState(null);
 
@@ -39,33 +39,33 @@ const ClientDetails = () => {
                 <div className="card-section-title">
                     <User size={18} /> بيانات الهوية والاتصال
                 </div>    
-                {bookingData && bookingData.map((c, idx) => (
-                    <div className="details-layout-grid" key={idx}>
+                
+                    <div className="details-layout-grid">
                         <div className="data-fields-side">
                             <div className="inputs-modern-grid">
                                 <div className="field-group">
                                     <label><Hash size={13}/> كود العميل</label>
-                                    <div className="static-value">{c.ClientID}</div>
+                                    <div className="static-value">{clientData?.ClientID}</div>
                                 </div>
                                 <div className="field-group">
                                     <label><User size={13}/> الاسم بالكامل</label>
-                                    <div className="static-value bold">{c.ClientName}</div>
+                                    <div className="static-value bold">{clientData?.ClientName}</div>
                                 </div>
                                 <div className="field-group">
                                     <label><FileText size={13}/> الرقم القومي</label>
-                                    <div className="static-value">{c.NationalID}</div>
+                                    <div className="static-value">{clientData?.NationalID}</div>
                                 </div>
                                 <div className="field-group">
                                     <label><Phone size={13}/> رقم الهاتف (1)</label>
-                                    <div className="static-value">{c.PhoneNumber}</div>
+                                    <div className="static-value">{clientData?.PhoneNumber}</div>
                                 </div>
                                 <div className="field-group">
                                     <label><Phone size={13}/> رقم الهاتف (2)</label>
-                                    <div className="static-value">{c.SecondaryPhone || '---'}</div>
+                                    <div className="static-value">{clientData?.SecondaryPhone || '---'}</div>
                                 </div>
                                 <div className="field-group full-span">
                                     <label><MapPin size={13}/> عنوان المراسلات</label>
-                                    <div className="static-value">{c.Address}</div>
+                                    <div className="static-value">{clientData?.Address}</div>
                                 </div>
                             </div>
                         </div>
@@ -76,14 +76,14 @@ const ClientDetails = () => {
                             </label>
                             <div className="id-photo-frame">
                                 <img 
-                                    src={variables.NATIONAL_ID_IMAGES_URL + c.NationalIdImagePath} 
+                                    src={variables.NATIONAL_ID_IMAGES_URL + clientData?.NationalIdImagePath} 
                                     alt="National ID" 
                                     className="img-fluid" 
                                 />
                             </div>
                         </div>
                     </div>
-                ))}
+              
             </div>
             <div className="info-card-main">
                 <div className="card-section-title">
@@ -104,7 +104,7 @@ const ClientDetails = () => {
                             {bookedUnitsData && bookedUnitsData.map((unit, index) => (
                                 <React.Fragment key={index}>
                                     <tr className={openUnitIndex === index ? 'row-active' : ''}>
-                                        <td><span className="unit-tag">{unit.unitName}</span></td>
+                                        <td><span className="unit-tag">{unit.UnitName}</span></td>
                                         <td><span className="project-text">{unit.ProjectName}</span></td>
                                         <td>{unit.BookingDate?.split('T')[0]}</td> 
                                         <td className="text-center">

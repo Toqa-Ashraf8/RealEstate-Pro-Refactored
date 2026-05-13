@@ -18,11 +18,10 @@ namespace WebApp1.Repositories
         }
         public async Task<dynamic> GetClientProfile(int clientId)
         {
-            // 1. جلب بيانات العميل الأساسية
             var clientData = await _db.QueryFirstOrDefaultAsync<dynamic>(
-                "SELECT * FROM ClientFullDetails WHERE ClientID = @ClientID", new { ClientID = clientId });
+                "SELECT * FROM vw_ClientFullDetails WHERE ClientID = @ClientID", new { ClientID = clientId });
 
-            string sql = "SELECT * FROM ClientUnitsBookings WHERE ClientID = @ClientID";
+            string sql = "SELECT * FROM vw_ClientUnitsBookings WHERE ClientID = @ClientID";
             var rawData = await _db.QueryAsync<dynamic>(sql, new { ClientID = clientId });
             var bookedUnits = rawData.GroupBy(r => r.BookingID).Select(group => new
             {
@@ -40,7 +39,7 @@ namespace WebApp1.Repositories
                 }).ToList()
             }).ToList();
 
-            return new { clientData, bookedUnitsData = bookedUnits };
+            return new { clientData=clientData, bookedUnitsData = bookedUnits };
         }
     
     }

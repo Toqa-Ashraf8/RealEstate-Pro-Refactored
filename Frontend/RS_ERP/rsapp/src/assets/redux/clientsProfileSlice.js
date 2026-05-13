@@ -3,8 +3,7 @@ import { fetchAllClients, fetchClientFullDetails } from "../../services/clientsP
 import { searchClients } from "../../services/bookingService";
 
 const initialState={
-    clientData:[],
-    bookingData:JSON.parse(localStorage.getItem('bookingDetails')) || [],
+    clientData:JSON.parse(localStorage.getItem('bookingDetails')) || {},
     bookedUnitsData:JSON.parse(localStorage.getItem('bookedUnits')) || []
 }
 const clientsProfile=createSlice({
@@ -16,11 +15,11 @@ const clientsProfile=createSlice({
         state.clientData=action.payload;
     })
     .addCase(fetchClientFullDetails.fulfilled,(state,action)=>{
-             const clientData = action.payload.clientData || [];
-            const unitsData = action.payload.bookedUnitsData || [];
+             const clientData = action.payload.clientData || {};
+             const unitsData = action.payload.bookedUnitsData || [];
                 localStorage.setItem('bookingDetails', JSON.stringify(clientData));
                 localStorage.setItem('bookedUnits', JSON.stringify(unitsData));
-                state.bookingData = clientData;
+                state.clientData = clientData;
                 state.bookedUnitsData = unitsData;
     })
     .addCase(searchClients.fulfilled, (state, action) => {

@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './BookingsReport.css';
 import { variables } from '../variables';
 import { Printer } from 'lucide-react';
 
-const BookingsReport = React.forwardRef(({ client, installments}, ref) => {
-    if (!client) return null;
-    const summarizedInstallments = installments?.slice(0, 5) || [];
-    
+const BookingsReport = React.forwardRef((ref) => {
+const [parsedData, setParsedData] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('activeBookingClient');
+        if (savedData) {
+            setParsedData(JSON.parse(savedData));
+        }
+    }, []);
+
+    const summarizedInstallments = parsedData?.installments?.slice(0, 5) || [];
+    if (!parsedData) return <div className="p-5 text-center">جاري تحميل التقرير...</div>;
     return (
       <div className="report-view-container">
       
@@ -18,7 +26,7 @@ const BookingsReport = React.forwardRef(({ client, installments}, ref) => {
                             <span>سجل حجز وحدة سكنية</span>
                         </div>
                         <div className="report-meta">
-                            <p>كود الحجز: {client.BookingID}</p>
+                            <p>كود الحجز: {parsedData?.BookingDetails?.BookingID}</p>
                             <p>التاريخ: {new Date().toLocaleDateString('ar-EG')}</p>
                         </div>
                     </div>
@@ -27,20 +35,20 @@ const BookingsReport = React.forwardRef(({ client, installments}, ref) => {
                         <div className="info-section">
                         
                             <div className="info-items-wrapper">
-                                <div className="info-item"><label>اسم العميل:</label><span>{client.ClientName}</span></div>
-                                <div className="info-item"><label>الرقم القومي:</label><span>{client.NationalID || "---"}</span></div>
-                                <div className="info-item"><label>المشروع:</label><span>{client.ProjectName}</span></div>
-                                <div className="info-item"><label>رقم الوحدة:</label><span>{client.unitName}</span></div>
-                                <div className="info-item"><label>إجمالي السعر:</label><span>{client.NegotiationPrice?.toLocaleString()} ج.م</span></div>
-                                <div className="info-item"><label>المقدم المدفوع:</label><span>{client.ReservationAmount?.toLocaleString()} ج.م</span></div>
+                                <div className="info-item"><label>اسم العميل:</label><span>{parsedData.InitialClientData?.ClientName}</span></div>
+                                <div className="info-item"><label>الرقم القومي:</label><span>{parsedData.ClientExDetails?.NationalID || "---"}</span></div>
+                                <div className="info-item"><label>المشروع:</label><span>{parsedData.InitialClientData?.ProjectName}</span></div>
+                                <div className="info-item"><label>رقم الوحدة:</label><span>{parsedData.InitialClientData?.unitName}</span></div>
+                                <div className="info-item"><label>إجمالي السعر:</label><span>{parsedData.InitialClientData?.NegotiationPrice?.toLocaleString()} ج.م</span></div>
+                                <div className="info-item"><label>المقدم المدفوع:</label><span>{parsedData.BookingDetails?.ReservationAmount?.toLocaleString()} ج.م</span></div>
                             </div>
                         </div>
                         
                         <div className="id-card-section">
                             <label>صورة إثبات الشخصية</label>
                             <div>
-                                {client.NationalIdImagePath ? (
-                                    <img src={variables.NATIONAL_ID_IMAGES_URL + client.NationalIdImagePath} alt="ID Card" />
+                                {parsedData?.ClientExDetails?.NationalIdImagePath ?(
+                                    <img src={variables.NATIONAL_ID_IMAGES_URL + parsedData.ClientExDetails.NationalIdImagePath} alt="ID Card" />
                                 ) : (
                                     <p className="no-image">لا يوجد صورة مرفقة</p>
                                 )}
