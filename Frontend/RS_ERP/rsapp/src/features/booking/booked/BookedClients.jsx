@@ -47,7 +47,7 @@ const editReservedClients=async(id,index)=>{
     localStorage.setItem('activeBookingClient', JSON.stringify(selectedClient));
     await dispatch(fetchReservedClientById(id));
      dispatch(setReservationStatus(1));
-    await navigate('/complete_booking?clientId='+id);
+    await navigate('/manage-booking-details?clientId='+id);
 }
 const printReport = async (index, id) => {
     try {
@@ -120,7 +120,7 @@ const searchClients=(e)=>{
                         </tr>
                     </thead>
                     <tbody>
-                       {reservedClients.length>0 && 
+                       {reservedClients.length>0 ?
                         reservedClients.map((client,index)=>
                             <tr key={index}>
                     <td>
@@ -163,8 +163,13 @@ const searchClients=(e)=>{
                             </button>
                         </div>
                     </td>
-                    </tr>
-                )}
+                            </tr>
+                        ): 
+                        <tr>
+                            <td colSpan={4} className="no_data">لا توجد حجوزات مكتملة</td>
+                            </tr>
+                       }    
+
              </tbody>
              </table>
             </div>  

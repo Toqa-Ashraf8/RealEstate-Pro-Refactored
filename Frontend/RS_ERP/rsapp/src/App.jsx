@@ -25,6 +25,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import {clearGlobalError} from './assets/redux/uiSlice'
 import ClientDetails from './features/dashboardClient/ClientDetails';
+import ManageBookingPage from './features/booking/booked/ManageBookingPage';
+import ManageInstallmentsPage from './features/booking/booked/ManageInstallmentsPage';
 
 
 function App() {
@@ -166,6 +168,20 @@ useEffect(() => {
                   /> 
                   </ProtectedRoute>
                 }
+              />
+               <Route path="/manage-booking-details" 
+              element={
+                <ProtectedRoute>
+                  <ManageBookingPage/>
+              </ProtectedRoute>
+             }
+              />
+               <Route path="/manage-installments-details" 
+              element={
+                <ProtectedRoute>
+                  <ManageInstallmentsPage/>
+              </ProtectedRoute>
+             }
               />
       </Routes>
     </>

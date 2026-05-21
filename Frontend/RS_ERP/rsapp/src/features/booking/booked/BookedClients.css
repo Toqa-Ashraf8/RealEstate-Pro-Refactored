@@ -15,7 +15,12 @@
     justify-content: space-between;
     align-items: center;
 }
-
+.no_data{
+    text-align: center;
+    padding: 40px 0;
+    color: #c0bfbf;
+    font-size: 16px;
+}
 .booked_list_title_area h2 {
     color: #1e293b;
     font-weight: 800;

@@ -7,6 +7,7 @@ import uiReducer from './uiSlice';
 import authReducer from './authSlice';
 import dashReducer from './dashboardSlice';
 import clientProfileReducer from './clientsProfileSlice';
+import manageBookingReducer from './manageBookingSlice';
 export const store = configureStore({
     reducer: {
         projects: projReducer,
@@ -16,6 +17,7 @@ export const store = configureStore({
         ui:uiReducer,
         auth:authReducer,
         dashboard:dashReducer,
-        clientsProfile:clientProfileReducer
+        clientsProfile:clientProfileReducer,
+        manageBooking: manageBookingReducer,
     }
 })

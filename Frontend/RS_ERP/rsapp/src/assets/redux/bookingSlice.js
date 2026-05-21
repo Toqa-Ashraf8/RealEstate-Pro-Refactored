@@ -5,7 +5,6 @@ import {
     bookingDetailRequest,
     deleteBookingData,
     fetchAllReservedClients, 
-    fetchReservedClientById, 
     fillClientData, 
     generateInstallments, 
     saveChecksImages, 
@@ -84,13 +83,7 @@ const bookingSlice = createSlice({
            
         },
         //حساب قيمة المقدم بقيمة الحجز من الداتا بيز
-        calculateNewDownPayment:(state,action)=>{
-            const negoiationPrice = action.payload.total;
-            state.InstallmentInformation.TotalAmount = negoiationPrice;
-             const newBalance = 
-             state.InstallmentInformation.TotalAmount - action.payload.newReservationAmount;
-             state.InstallmentInformation.DownPayment = newBalance * 0.25;
-        },
+       
         setInstallmentData: (state, action) => {
             state.InstallmentInformation = { ...state.InstallmentInformation, ...action.payload };
         },
@@ -110,13 +103,7 @@ const bookingSlice = createSlice({
         setReservationStatus:(state,action)=>{
             state.reserved=action.payload;
         },
-       updateDownPaymentManual: (state, action) => {
-            state.InstallmentInformation = {
-                ...state.InstallmentInformation,
-                DownPayment: action.payload
-            };
-        },
-        setInitialClientData:(state,action)=>{
+        InitialClientData:(state,action)=>{
             state.initialClientData=action.payload;  
         },
         toggleRevertPymentModal:(state,action)=>{
@@ -171,17 +158,7 @@ const bookingSlice = createSlice({
         state.reservedClients=
         state.reservedClients.filter((client)=>client.BookingID!==action.payload);
       },
-      hydrateFromStorage: (state, action) => {
-     const data = action.payload;
-    if (data) {
-        state.bookingClient = data.bookingClient || state.bookingClient;
-        state.initialClientData = data.initialClientData || data.InitialClientData || state.initialClientData;
-        state.InstallmentInformation = data.InstallmentInformation || data.BookingDetails || state.InstallmentInformation;
-        state.installmentDetails = data.installmentDetails || data.installments || [];
-        state.reserved = 1;
-    }
-    },
-
+    
     },
     extraReducers: (builder) => {
         builder
@@ -207,13 +184,6 @@ const bookingSlice = createSlice({
                 state.reservedClients=action.payload;
             })
           
-             .addCase(fetchReservedClientById.fulfilled, (state, action) => {
-                state.initialClientData=action.payload.InitialClientData;
-                state.bookingClient = action.payload.ClientExDetails;
-                state.InstallmentInformation = action.payload.BookingDetails; 
-                state.installmentDetails = action.payload.installments;
-                localStorage.setItem('activeBookingClient', JSON.stringify(action.payload));
-          })
             .addCase(deleteBookingData.fulfilled, (state, action) => {
                 state.isDeletedBooking=action.payload;
             })
@@ -232,8 +202,6 @@ export const {
     setPaymentModalValues,
     resetPaymentModal,
     setReservationStatus,
-    updateDownPaymentManual,
-    calculateNewDownPayment,
     setInitialClientData,
     setIndexofInstallmentRow,
     toggleRevertPymentModal,
@@ -242,7 +210,6 @@ export const {
     toggleRevertModal,
     confirmRevertPayment,
     deleteBookingRow,
-    hydrateFromStorage
 } = bookingSlice.actions;
 const bookingReducer = bookingSlice.reducer;
 export default bookingReducer;
