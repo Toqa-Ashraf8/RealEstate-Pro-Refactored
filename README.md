@@ -52,7 +52,7 @@ F -->|Tracks| G[Monthly Payments]
 ```
 
 ## 🔧 Installation & Setup
-1. Clone the repo: `git clone https://github.com/Toqa-Ashraf8/RealEstate_Clean_Dapper.git`
+1. Clone the repo: `git clone https://github.com/Toqa-Ashraf8/realestate-management-refactored.git`
 2. **Backend:** - Update `appsettings.json` with your SQL connection string.
    - Run `dotnet run`.
 3. **Frontend:** - Run `npm install` then `npm start`.
